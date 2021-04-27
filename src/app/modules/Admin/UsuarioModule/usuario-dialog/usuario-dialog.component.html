@@ -1,0 +1,50 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()" autocomplete="false" name="form">
+        <mat-toolbar color="primary">
+            <span>Asignar rol(es)</span>
+        </mat-toolbar>
+    
+        <div class="table-container">
+    
+            <!-- #region #ROLES ASIGNADOS -->
+            <div>
+                <h3>Roles Asignados</h3>
+                <button mat-fab (click)="asignarRoles()" class="addInTable" matTooltip="Asignar roles" mat-mini-fab color="primary">
+                    <i *ngIf="rolesAsignados == true; else RemoveRoles" class="material-icons">add</i>
+                    
+                    <ng-template #RemoveRoles>
+                        <i class="material-icons">remove</i>
+                    </ng-template>                    
+                </button>
+                
+                <app-rol-asignados *ngIf="rolesAsignados == true; else AsignarRoles"
+                    [rolUsuarioAsignados]="rolUsuario" [rolUsuarioAsignadosTmp]="rolUsuarioTmp"
+                    (rolUsuarioTmp)="onRolUsuario($event)"
+                    (rolDeleted)="onDeleteRoles($event)"
+                    >
+                </app-rol-asignados>
+
+                <ng-template #AsignarRoles>
+                        <app-rol-asignar
+                        [rolUsuarioAsignados]="rolUsuario" [rolUsuarioAsignadosTmp]="rolUsuarioTmp"
+                        (rolUsuarioTmp)="onRolUsuarioAsignar($event)" (close)="onAsignarRolCancel($event)"
+                    ></app-rol-asignar>                  
+                </ng-template>
+            </div>
+            <!-- #endregion -->
+           
+    
+          
+    
+            <br>
+            <div align="center">
+                <button (click)="onActualizar()" mat-stroked-button class="boton-secondary" type="submit" matTooltip="Guardar" title="Guardar">Guardar cambios
+                </button>
+    
+                <button (click)="onCancelar('cancel')" type="button" mat-stroked-button class="boton-gray" matTooltip="Cerrar" title="Cerrar">Cerrar
+                </button>
+            </div>
+    
+         
+    
+        </div>
+    </form>

@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row" *ngFor="let item of tramites">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="cardCitas">
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <div mat-card-avatar class="example-header-image"></div>
+                        <mat-card-title>{{item.nombre}}</mat-card-title>
+
+                    </mat-card-header>
+                    <!--<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+                    <mat-card-content>
+                        <p>{{item.descripcion}}
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit doloribus nam molestias
+                            aperiam, nemo a, distinctio, quam quaerat repellat tempora doloremque beatae dolores id enim
+                            pariatur ullam neque quas! Doloribus?
+                        </p>
+                    </mat-card-content>
+                    <span class="badge badge-primary">{{item.accion}}</span>
+                    <mat-card-actions>
+                        <button mat-button>Ver requisitos</button>
+                        <!--<button mat-button>SHARE</button>-->
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+</div>

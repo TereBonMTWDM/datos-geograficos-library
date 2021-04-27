@@ -1,0 +1,50 @@
+<!-- <div class="row justify-content-center align-items-center pt-4">
+    <div class="col-md-6">
+        <div class="card shadow bg-light animated fadeIn">
+            <div class="card-body text-center">
+                <div class="mt-4 mb-4">
+                    <h3>Bienvenido a la plataforma de citas</h3>
+                    <p>Registrate o inicia sesión con alguna cuenta de google o microsoft.</p>
+                </div>
+
+
+                <button type="button" class="btn btn-link" (click)="signIn()">
+                    <img src="assets/img/googleLogo.png" alt="logoGoogle" height="40" width="40" />
+                </button>
+                <button type="button" class="btn btn-link" (click)="signInWindows()">
+                    <img src="assets/img/microsoft_logo.jpg" alt="logoGoogle" height="40" width="40" />
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div class="row justify-content-center align-items-center pt-4">
+
+    <div class="cardLogin colorLogin" align="center">
+        <div class="iconLogin">
+            <i aria-label="Información" style="font-size: 100px;" class="material-icons iconLoginCitas">
+                account_circle
+            </i>
+        </div>
+        <div class="titleLogon">
+            <h3>Bienvenido a la plataforma de citas</h3>
+            <p>Regístrate o inicia sesión con alguna cuenta de Google o Microsoft.</p>
+            <hr>
+        </div>
+        <div class="loginOption">
+            <div class="logGoogle">
+                <button type="button" class="btn btn-link iconButtonLogin" (click)="signIn()" title="Acceder con Google">
+                    <img src="assets/img/googleLogo.png" alt="logoGoogle" height="40" width="40" />
+                </button>
+            </div>
+            <div class="logMicrosoft">
+                <button type="button" class="btn btn-link iconButtonLogin" (click)="signInWindows()" title="Acceder con Microsoft">
+                    <img src="assets/img/microsoft_logo.jpg" alt="logoMicrosoft" height="40" width="40" />
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

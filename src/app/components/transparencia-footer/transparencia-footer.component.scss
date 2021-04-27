@@ -1,0 +1,222 @@
+.transparencia {
+    background-color: #025ABC;
+    height: 138px;
+    margin-top: 20px;
+    border-radius: 70px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.15);
+            box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.15);
+    overflow: visible;
+    width: calc(100% - 1px);
+  }
+  
+  .transparencia .transparencia-logo {
+    width: 35%;
+  }
+  
+  .transparencia .transparencia-logo img {
+    width: auto;
+    height: 140px;
+    margin-top: -1px;
+    -o-object-fit: contain;
+       object-fit: contain;
+  }
+  
+  .transparencia .transparencia-logo h3 {
+    display: none;
+  }
+  
+  .transparencia .transparencia-logo a {
+    text-decoration: none;
+    margin: auto;
+  }
+  
+  .transparencia .transparencia-link-list {
+    width: 50%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  .transparencia .transparencia-link-list ul {
+    columns: 2;
+    -webkit-columns: 2;
+    line-height: 21px;
+    margin: auto;
+  }
+  
+  .transparencia .transparencia-link-list ul li {
+    color: white;
+  }
+  
+  .transparencia .transparencia-link-list ul li a {
+    text-decoration: none;
+    color: white;
+    margin-right: 18px;
+    line-height: 24px;
+  }
+  
+  .transparencia .transparencia-link-list ul li:hover {
+    text-decoration: underline;
+  }
+  
+  .transparencia .transparencia-link-list .list-trigger {
+    display: none;
+  }
+  
+  .transparencia .transparencia-lupa {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 15%;
+  }
+  
+  .transparencia .transparencia-lupa .ico-area {
+    background: white;
+    width: 140px;
+    margin: auto;
+    height: 140px;
+    border-radius: 50%;
+    margin-right: -1px;
+    margin-top: -1px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+  
+  .transparencia .transparencia-lupa .ico-area i {
+    color: #025abc;
+    margin: auto;
+    transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -ms-transform: scaleX(-1);
+    font-size: 8.5rem;
+  }
+  
+  @media (max-width: 800px) {
+    .transparencia {
+      width: 99%;
+      margin: 20px auto;
+    }
+    .transparencia-logo {
+      width: 45% !important;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+    }
+    .transparencia-logo img {
+      display: none;
+    }
+    .transparencia-logo h3 {
+      display: block !important;
+      color: white;
+      font-size: 14px;
+      margin: auto;
+      padding-left: 18px;
+      font-weight: 400;
+    }
+    .transparencia-link-list {
+      width: 11% !important;
+    }
+    .transparencia-link-list button {
+      margin-left: -12px !important;
+    }
+    .transparencia-link-list mat-menu .mat-menu-content:not(:empty) {
+      background-color: #025abc !important;
+    }
+    .transparencia-link-list ul {
+      display: none !important;
+    }
+    .transparencia-link-list .list-trigger {
+      display: -webkit-box !important;
+      display: -ms-flexbox !important;
+      display: flex !important;
+      margin: auto;
+      margin-bottom: 0;
+      background: white;
+      width: 45px;
+      height: 30px;
+      border-radius: 50% 50% 0 0;
+      cursor: pointer;
+    }
+    .transparencia-link-list .list-trigger a {
+      text-decoration: none;
+    }
+    .transparencia-link-list .list-trigger i {
+      margin: auto;
+      font-size: 2rem;
+      color: #025ABC;
+    }
+    .transparencia-lupa {
+      width: 44% !important;
+    }
+    .transparencia-lupa .ico-area {
+      margin: auto !important;
+      margin-right: 15px !important;
+      width: 100px !important;
+      height: 100px !important;
+    }
+    .transparencia-lupa .ico-area i {
+      font-size: 6.5rem !important;
+    }
+  }
+  
+  @media (max-width: 1060px) {
+    .transparencia {
+      width: calc(100% - 7px);
+    }
+    .transparencia .transparencia-link-list ul {
+      margin-right: 0 !important;
+      display: -ms-grid;
+      display: grid;
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: end;
+    }
+    .transparencia .transparencia-link-list ul li a {
+      font-size: 13px !important;
+      line-height: 12px !important;
+    }
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .transparencia:hover .transparencia-lupa .ico-area i {
+    -webkit-animation: search 0.4s ease-in-out 1 alternate forwards;
+            animation: search 0.4s ease-in-out 1 alternate forwards;
+  }
+  
+  @-webkit-keyframes search {
+    0% {
+      -webkit-transform: scale(-1, 1);
+              transform: scale(-1, 1);
+      text-shadow: unset;
+    }
+    100% {
+      -webkit-transform: scale(-1.08, 1.08);
+              transform: scale(-1.08, 1.08);
+      text-shadow: -5px 5px 4px rgba(0, 0, 0, 0.33);
+    }
+  }
+  
+  @keyframes search {
+    0% {
+      -webkit-transform: scale(-1, 1);
+              transform: scale(-1, 1);
+      text-shadow: unset;
+    }
+    100% {
+      -webkit-transform: scale(-1.08, 1.08);
+              transform: scale(-1.08, 1.08);
+      text-shadow: -5px 5px 4px rgba(0, 0, 0, 0.33);
+    }
+  }
+  /*# sourceMappingURL=transparencia-footer.component.css.map */

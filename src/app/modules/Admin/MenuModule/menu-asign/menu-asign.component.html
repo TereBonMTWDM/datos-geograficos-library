@@ -1,0 +1,94 @@
+
+<div *ngIf="showAsignados == true; else showPorAsignar" 
+    class="example-container mat-elevation-z8" 
+    style="margin-top: 50px; margin-bottom: 25px;">
+        <table *ngIf="dataSource?.length > 0; else NoCount"
+            mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="texto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Menú </th>
+                <td mat-cell *matCellDef="let row"> {{row.texto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="inicio">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Inicio </th>
+                <td mat-cell *matCellDef="let row"> {{row.inicio | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="final">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Final </th>
+                <td mat-cell *matCellDef="let row"> {{row.final | date: 'dd/MM/yyyy'}} </td>
+            </ng-container>
+
+            
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Acción </th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button (click)="desasignarMenu(row)"
+                        matTooltip="Desasignar menú al rol" class="iconbutton" color="primary" >
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </ng-container>
+            
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+    </table>
+    <ng-template #NoCount>
+        <div class="alert alert-primary" role="alert">
+            Aún no hay menús asignados
+        </div>
+    </ng-template>
+        
+</div>
+
+
+<!--=====-->
+<ng-template #showPorAsignar>
+
+<div class="example-container mat-elevation-z8" style="margin-top: 25px; margin-bottom: 25px; padding-left: 50px; padding-right: 50px;padding-bottom: 50px;">
+    <br>
+    <h5>Menús disponibles para asignar:</h5>
+    <hr>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)" autocomplete="false">
+        <mat-selection-list #list (ngModelChange)="onNgModelChange($event)" [(ngModel)]="menusSelected" name="menusSelected" required>
+            <mat-list-option *ngFor="let item of menuNoAsignados" [value]="item">
+                {{item.texto}}
+            </mat-list-option>
+        </mat-selection-list>
+        <hr>
+        
+        <div *ngIf="menusSelected.length> 0">
+            <mat-grid-list cols="2" rowHeight="60px" rowWidht="40px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput #ref [matDatepicker]="pickerInicio" [min]="minDate" (focus)="pickerInicio.open()" readonly placeholder="Fecha Inicio" 
+                            [(ngModel)]="inicio" name="inicio"  (dateChange)="orgValueChange(ref.value,ref2.value)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerInicio></mat-datepicker>
+                    </mat-form-field>&nbsp;&nbsp;
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput #ref2 [matDatepicker]="pickerFinal" [min]="minDate" (focus)="pickerFinal.open()" readonly placeholder="Fecha Final" 
+                        [(ngModel)]="final" name="final"  (dateChange)="orgValueChange(ref.value,ref2.value)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerFinal></mat-datepicker>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <p *ngIf="fechasOk==true" style="color: red;margin-top:-17px;font-size: 11px;">*Verifica que la fecha final sea menor a la fecha inicial</p>
+            <div align="center">
+                <button [disabled]="!form.form.valid" type="submit" mat-stroked-button class="boton-secondary" matTooltip="guardar" title="guardar">Asignar
+                </button>
+                <button (click)="onCancelar()" type="button" mat-stroked-button class="boton-gray" matTooltip="Cancelar" title="Cancelar">Cancelar
+                </button>
+            </div>
+        </div>
+        
+    </form>
+
+
+</div>
+</ng-template>

@@ -1,0 +1,42 @@
+<button (click)="asignarUsuarios()" class="addInTable" matTooltip="Asignar usuarios" mat-mini-fab mat-fab
+    color="primary">
+
+    <i *ngIf="listarAsignados == true; else Remove" class="material-icons">add</i>
+    <ng-template #Remove>
+        <i class="material-icons">remove</i>
+    </ng-template>
+</button>
+
+<app-usuario-asign [listarAsignados]="listarAsignados"
+    [rolUsuario]="usuarios" (usuariosDeleted)="onDeleteUsuarios($event)"
+    (usuariosAdded)="onRolUsuarioAsignar($event)" (cancelAsignar)="onCancel()"
+></app-usuario-asign>
+
+
+
+
+
+
+ <!-- <button (click)="asignarUsuarios()" class="addInTable" matTooltip="Asignar usuarios" mat-mini-fab mat-fab
+    color="primary">
+    <div *ngIf="usuariosAsignados == true; else RemoveUsuarios"><i class="material-icons">add</i></div>
+    <ng-template #RemoveUsuarios>
+        <i class="material-icons">remove</i>
+    </ng-template>
+</button>
+<app-usuario-asignados 
+    *ngIf="usuariosAsignados == true; else AsignarUsuarios" 
+    [rolUsuariosAsignados]="rolUsuario" [rolUsuariosAsignadosTmp]="rolUsuarioTmp" 
+    (rolUsuariosTmp)="onRolUsuario($event)"
+    (usuarioDeleted)="onDeleteUsuario($event)" [rol]="rol">
+</app-usuario-asignados>
+
+<ng-template #AsignarUsuarios>
+    <br>
+    <app-usuario-asignar 
+        [rolUsuarioAsignados]="rolUsuario"  
+        (rolUsuariosTmp)="onRolUsuarioAsignar($event)"                  
+        [rolUsuariosAsignadosTmp]="rolUsuarioTmp"
+        [rol]="rol" (close)="asignarUsrCancel($event)">
+    </app-usuario-asignar>
+</ng-template> -->

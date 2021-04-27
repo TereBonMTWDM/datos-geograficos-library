@@ -1,0 +1,52 @@
+<!-- lista -->
+<ul>
+    <li *ngFor="let parentNode of menuList">
+        <div *ngIf="parentNode.submenu.length==0">
+            <a [href]="'#'+parentNode.routerLink" [title]="parentNode.nombre">{{parentNode.nombre}}</a>
+        </div>
+        <div *ngIf="parentNode.submenu.length!=0">
+            <a [title]="parentNode.nombre">{{parentNode.nombre}}</a>
+        </div>
+        <div *ngFor="let childNode of parentNode.submenu">
+            <ul>
+                <li>
+                    <div *ngIf="childNode.submenu.length==0">
+                        <a [href]="'#'+childNode.routerLink" [title]="childNode.nombre">{{childNode.nombre}}</a>
+                    </div>
+                    <div *ngIf="childNode.submenu.length!=0">
+                        <a [title]="childNode.nombre">{{childNode.nombre}}</a>
+                    </div>
+
+                    <div *ngFor="let item3 of childNode.submenu">
+                        <ul>
+                            <li>
+                                <a [href]="'#'+item3.routerLink" [title]="item3.nombre">{{item3.nombre}}</a>
+                                <div *ngFor="let item4 of item3.submenu">
+                                    <ul>
+                                        <li>
+                                            <div *ngIf="item4.submenu.length==0">
+                                                <a [href]="'#'+item4.routerLink" [title]="item4.nombre">{{item4.nombre}}</a>
+                                            </div>
+                                            <div *ngIf="item4.submenu.length!=0">
+                                                <a [title]="item4.nombre">{{item4.nombre}}</a>
+                                            </div>
+
+                                            <!-- <a [href]="'#'+item4.routerLink">{{item4.nombre}}</a> -->
+                                            <div *ngFor="let item5 of item4.submenu">
+                                                <ul>
+                                                    <li>
+                                                        <a [href]="'#'+item5.routerLink">{{item5.nombre}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </li>
+</ul>

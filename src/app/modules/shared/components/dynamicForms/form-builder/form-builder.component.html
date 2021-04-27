@@ -1,0 +1,16 @@
+<div class="form-container">
+  <form [formGroup]="form" >
+    <div *ngFor="let formElement of formBuilderData?.formData" class="form-row">
+      <dgtit-form-element *ngIf="!formBuilderData?.actions.includes('delete')" class="w-100" [formElement]="formElement" [form]="form"></dgtit-form-element>
+    </div>
+
+    <div class="form-actions">
+      <div class="form-row" *ngFor="let action of formBuilderData?.actions">
+        <a mat-mini-fab [title]="action" [color]="action=='add' ? 'primary': (action =='edit' ? 'accent' : (action === 'delete'? 'warn': ''))"
+          (click)="onSubmit(action)" [disabled]="!form.valid && (action !== 'delete' && action !== 'close')">
+          <mat-icon>{{action}}</mat-icon>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,67 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()" autocomplete="false" name="form">
+    <mat-toolbar color="primary">
+        <span>{{action}} Rol</span>
+    </mat-toolbar>
+
+    <div class="table-container">
+
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Nombre del Rol" [value]="rol.descripcion" [(ngModel)]="rol.descripcion" name="descripcion" #descripcion="ngModel" 
+            required title="Nombre" matTooltip="Nombre" maxlength="70">
+            <mat-hint align="end">Máximo 70 caracteres</mat-hint>
+        </mat-form-field>
+        <div *ngIf="descripcion.invalid && (descripcion.dirty || descripcion.touched)"
+                class="alert alert-danger">
+            <div *ngIf="descripcion.errors.required">
+                El nombre del Rol es requerido
+            </div>
+        </div>
+       
+
+        <div *ngIf="rol.creador != null">
+            <mat-label><small>Creador: </small> {{rol.creador}} - {{rol.creacion}} hrs</mat-label>
+        </div>
+        <br>
+        <div *ngIf="rol.modificador != null">
+            <mat-label>
+                <small>Modificado: </small> {{rol.modificador}} - {{rol.modificacion}} hrs
+            </mat-label>
+        </div>
+
+        <br>
+
+
+
+        
+        <div>
+            <h3>Menús Asignados</h3>
+            <app-menu-grupo [rolMenu]="rolMenu" [rolMenuN]="rolMenuN" (menuAsignadoTotal)="onMenuAsignadoTotal($event)"></app-menu-grupo>
+        </div>
+        
+
+        <br><br><br>
+
+        <div *ngIf="rol.rolID != 0">
+            <h3>Usuarios Asignados</h3>
+            <app-usuario-grupo [rolUsuario]="rolUsuario" (usuariosAsignadoTotal)="onUsrAsignadoTotal($event)"></app-usuario-grupo>
+        </div>
+
+
+
+
+        <br>
+        <div align="center">
+            <button *ngIf="action == 'Agregar'" [disabled]="!form.form.valid" (click)="onGuardar()" mat-stroked-button class="boton-secondary" type="submit" matTooltip="Guardar" title="Guardar">Guardar
+            </button>
+
+            <button *ngIf="action == 'Actualizar'" [disabled]="!form.form.valid" (click)="onActualizar()" mat-stroked-button class="boton-secondary" type="submit" matTooltip="Guardar" title="Guardar">Guardar
+            </button>
+
+            <button (click)="onCancelar('cancel')" type="button" mat-stroked-button class="boton-gray" matTooltip="Cerrar" title="Cerrar">Cerrar
+            </button>
+        </div>
+
+     
+
+    </div>
+</form>

@@ -1,0 +1,12 @@
+{
+    "secretaria": "Secretaría de Finanzas, Inversión y Administración",
+    "direccion": "Paseo de la Presa #172, Col. Paseo de la Presa",
+    "CP": "C.P. 36094, Guanajuato, Gto.",
+    "telefono": "473 735 1500",
+    "redes": [{
+        "nombre": "twitter",
+        "link": "https://twitter.com/sfiagto?lang=es",
+        "ico": "fab fa-twitter"
+    }],
+    "year": "2020"
+}

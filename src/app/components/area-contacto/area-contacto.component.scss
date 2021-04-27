@@ -1,0 +1,77 @@
+mat-toolbar {
+    font-size: 10px;
+  }
+  
+  .area-contacto {
+    display: -ms-flexbox;
+    display: grid;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    -ms-grid-rows: 48px;
+        grid-template-rows: 48px;
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .area-contacto .gto-container {
+    height: 48px;
+  }
+  
+  .area-contacto .gto-container ul {
+    margin: 0;
+    -webkit-margin-before: 0;
+            margin-block-start: 0;
+    -webkit-margin-after: 0;
+            margin-block-end: 0;
+  }
+  
+  .area-contacto .gto-container ul li {
+    display: -ms-inline-grid;
+    display: inline-grid;
+    height: 100%;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  
+  mat-toolbar {
+    background-color: #142392;
+    height: 48px;
+  }
+  
+  @media (max-width: 700px) {
+    .mat-toolbar-single-row {
+      height: auto !important;
+      width: 100%;
+      padding: 0 12px !important;
+    }
+    .area-contacto {
+      display: -ms-inline-grid !important;
+      display: inline-grid !important;
+      width: 100%;
+      -webkit-box-pack: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+    }
+    dgtit-apartado-funciones, dgtit-apartado-enlaces-perfiles {
+      overflow: auto;
+      display: -ms-grid;
+      display: grid;
+      width: 100%;
+    }
+    dgtit-apartado-enlaces-perfiles {
+      -webkit-box-pack: start;
+          -ms-flex-pack: start;
+              justify-content: start;
+    }
+    dgtit-apartado-funciones {
+      -webkit-box-pack: end;
+          -ms-flex-pack: end;
+              justify-content: end;
+    }
+    dgtit-apartado-funciones::-webkit-scrollbar, dgtit-apartado-enlaces-perfiles::-webkit-scrollbar {
+      display: none !important;
+    }
+  }
+  /*# sourceMappingURL=area-contacto.component.css.map */

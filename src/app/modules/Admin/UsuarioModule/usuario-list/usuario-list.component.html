@@ -1,0 +1,67 @@
+<table mat-table #table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo electrónico</th>
+        <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+        <td mat-cell *matCellDef="let row"> {{row.nombre}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="apellido1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 1er Apellido</th>
+        <td mat-cell *matCellDef="let row"> {{row.apellido1}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="apellido2">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 2do Apellido</th>
+        <td mat-cell *matCellDef="let row"> {{row.apellido2}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="curp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> CURP</th>
+        <td mat-cell *matCellDef="let row"> {{row.curp}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sexo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Sexo</th>
+        <td mat-cell *matCellDef="let row"> {{row.sexo}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rfc">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> RFC</th>
+        <td mat-cell *matCellDef="let row"> {{row.rfc}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="celular">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Celular</th>
+        <td mat-cell *matCellDef="let row"> {{row.celular}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+
+        <th mat-header-cell *matHeaderCellDef> Acciones
+            <!-- <br>
+            <button (click)="openDialog('ADD', {})" mat-fab class="flotante" matTooltip="Asignar rol" mat-flat-button color="primary">
+                <i class="material-icons">add</i>
+            </button> -->
+        </th>
+        <td mat-cell *matCellDef="let row">
+            <button (click)="openDialog('ASSIGN_ROLE', row)" mat-icon-button matTooltip="Asignar rol" class="iconbutton" color="primary">
+                <i class="fas fa-user-cog"></i>
+            </button>
+            <button (click)="openDialog('PROFILE', row)" mat-icon-button matTooltip="Ver Perfil" class="iconbutton" color="primary">
+                <i class="far fa-address-card"></i>
+            </button>
+            <!-- <button *ngIf="row.borrar" mat-icon-button matTooltip="Borrar usuario" class="iconbutton" color="primary" (click)="openDialogAccionUrs('Eliminar',row)">
+                <i class="fas fa-trash"></i>
+            </button>
+            <button *ngIf="!row.borrar" disabled mat-icon-button matTooltip="Borrar rol" class="iconbutton" color="primary" (click)="openDialogAccionUrs('Eliminar',row)">
+                <i class="fas fa-trash"></i>
+            </button> -->
+        </td>
+    </ng-container>
+    <tr mat-header-row title *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

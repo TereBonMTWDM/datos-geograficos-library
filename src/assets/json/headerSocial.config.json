@@ -1,0 +1,32 @@
+{
+    "header": {
+        "areaContactos": [{
+                "name": "teléfono",
+                "label": "llámanos",
+                "content": "473 735 1579",
+                "ico": "phone",
+                "link": "tel:+52473-735-1579"
+            },
+            {
+                "name": "correo",
+                "label": "contacto",
+                "content": "CONTÁCTANOS",
+                "ico": "mail",
+                "link": "mailto:servicioti@guanajuato.gob.mx"
+            }
+        ],
+        "areaSocial": [{
+            "nombre": "Twitter",
+            "ico": "fab fa-twitter",
+            "link": "https://twitter.com/sfiagto?lang=es",
+            "label": "Twittéanos"
+        }]
+    },
+    "navBar": {
+        "logoDependencia": {
+            "nombre": "Secretaria de finanzas inversión y administración",
+            "link": "assets/img/logo-secretaria-finanzas-guanajuato.svg"
+        },
+        "siteMapLink": "#/siteMap"
+    }
+}

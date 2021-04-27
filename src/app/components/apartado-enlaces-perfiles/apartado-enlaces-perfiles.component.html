@@ -1,0 +1,40 @@
+<div class="social-area">
+    <ul>
+        <li *ngFor="let item of socialItems" [title]="item.label">
+            <a [href]="item.link" class="white-text" [title]="item.label">
+                <i [class]="item.ico" [title]="item.label"></i>
+            </a>
+        </li>
+        <li *ngIf="dataUser">
+            <button mat-button [matMenuTriggerFor]="menu" [title]="dataUser?.nombre+' '+dataUser?.apellidos+'\n'+'Email: '+dataUser?.email"><i class="material-icons">account_circle</i><label for="account_name" class="account_name">&nbsp;  {{dataUser?.nombre}} &nbsp;</label><i class="material-icons">arrow_drop_down</i></button>
+            <mat-menu #menu="matMenu">
+            <button style="width:250px" (click)="navPerfil()" mat-menu-item title="Ver perfil">
+            <div>
+                <mat-grid-list cols="5" rowHeight="20px" rowWidht="100px">
+                <mat-grid-tile [colspan]="1" [rowspan]="2">
+                <mat-icon style="color: #142392;font-size: 40px;margin-top: -16px; margin-left: -6px;">account_circle</mat-icon>
+                </mat-grid-tile>
+                <mat-grid-tile class="nombreCuenta" [colspan]="4" [rowspan]="1">
+                <span style="font-size: 12px !important;width: 100%;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;-webkit-transition: all 1s;-moz-transition: all 1s;transition: all 1s;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                {{dataUser?.nombre}} {{dataUser?.apellidos}}
+                </span>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="4" [rowspan]="1">
+                 <span style="font-size: 12px !important;width: 100%;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;-webkit-transition: all 1s;-moz-transition: all 1s;transition: all 1s;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
+                {{dataUser?.email}}</span>
+                </mat-grid-tile>
+            </mat-grid-list>
+            </div>
+                </button>
+                <mat-divider>
+                </mat-divider>
+                <button (click)="cerrarSession()" mat-menu-item >
+                <mat-icon>exit_to_app</mat-icon>
+                    <span>Cerrar sesión</span>
+                </button>
+            </mat-menu>
+        </li>
+
+    </ul>
+</div>
+

@@ -1,0 +1,32 @@
+{
+    "servicios":[
+        {
+            "id":"1",
+            "img":"assets/img/server-2160321_1920.jpg",
+            "alt":"solicitudes-internet-correo",
+            "link":"https://dgtit.guanajuato.gob.mx/servicios/",
+            "altas":"Solicitudes de Internet",
+            "bajas":"y correo electrónico",
+            "descripcion":"solicitudes de internet y correo electrónico"
+        },
+        {
+            "id":"2",
+            "img":"assets/img/technology-1587673_1920.jpg",
+            "alt":"hospedaje-servicios-nombres-dominio",
+            "link":"https://dgtit.guanajuato.gob.mx/servicios/",
+            "altas":"Hospedaje, servicios",
+            "bajas":"y nombres de dominio",
+            "descripcion":"hospedaje, servicios y nombres de dominio"
+        },
+        {
+            "id":"3",
+            "img":"assets/img/cyberspace-2784907_1920.jpg",
+            "alt":"soporte-tecnico-red-estatal",
+            "link":"https://dgtit.guanajuato.gob.mx/servicios/",
+            "altas":"Soporte técnico",
+            "bajas":"Red Estatal",
+            "descripcion":"Soporte Técnico red estatal"
+        }
+       
+    ]
+}

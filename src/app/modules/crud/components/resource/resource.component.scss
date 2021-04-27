@@ -1,0 +1,21 @@
+table {
+    width: -webkit-fill-available;
+    tr:nth-child(even) {
+        background: #d4d4d4;
+    }
+}
+
+.mat-header-row {
+    background: #d4d4d4;
+    th {
+        font-size: 14px;
+        color: black;
+        font-weight: 600;
+    }
+}
+
+.inline-title {
+    h1 {
+        font-variant: petite-caps;
+    }
+}

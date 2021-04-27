@@ -1,0 +1,22 @@
+<p>test-autocomplete works!</p>
+
+<form class="example-form">
+	<mat-form-field class="example-full-width">
+		<input type="text" placeholder="Assignee" aria-label="Assignee" matInput [formControl]="myControl" [matAutocomplete]="auto" >
+		<mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption="true">
+			<mat-option *ngFor="let option of filteredOptions | async" [value]="option.nombre">
+				{{option.nombre}}
+			</mat-option>
+		</mat-autocomplete>
+		<mat-error *ngIf="myControl.errors?.required">
+			Product is Required
+		</mat-error>
+		<mat-error *ngIf="myControl.hasError('forbiddenNames')">
+			You should enter value from suggested one only.
+			<strong>'{{myControl.errors.forbiddenNames.value}}'</strong> is not
+			allowed.
+		</mat-error>
+	</mat-form-field>
+</form>
+<br>
+<b>Value:</b> {{myControl.value|json}}

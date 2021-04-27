@@ -1,0 +1,70 @@
+<br>
+<h3 *ngIf="dataMenuActual?.texto">Listado de {{dataMenuActual?.texto}}</h3>
+<h3 *ngIf="!dataMenuActual?.texto">Catálogo de archivos</h3>
+
+<mat-card>
+    <h4>Filtros:</h4>
+    <div class="filtros">
+        <form [formGroup]="searchFilter">
+            <mat-grid-list cols="5" rowHeight="60px" rowWidht="20px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field class="example-form-field">
+                        <input matInput type="text" formControlName="descripcion" placeholder="Texto" [(ngModel)]="valueDesc">
+                        <button mat-button *ngIf="valueDesc" matSuffix mat-icon-button aria-label="Limpiar" (click)="valueDesc=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <button mat-raised-button color="primary" type="submit">Aplicar
+                        filtros</button>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <button mat-raised-button color="primary" (click)="QuitarFiltros()">Quitar Filtros</button>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <button mat-raised-button color="primary" (click)="ExportTOExcel()">Exportar a Excel</button>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </form>
+    </div>
+</mat-card>
+<br>
+
+
+<!-- tabla de archivos -->
+<div class="example-container mat-elevation-z8" #TABLE>
+    <table mat-table #table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-heade> Texto</th>
+            <td mat-cell *matCellDef="let row"> {{row.descripcion}} </td>
+        </ng-container>
+        <ng-container matColumnDef="extension">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Extensión </th>
+            <td mat-cell *matCellDef="let row"> {{row.extension}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones <br> <button mat-fab class="flotante" matTooltip="Agregar menú" mat-flat-button color="primary" (click)="openDialog('Agregar',{})"><i
+                        class="material-icons">add</i></button> </th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button matTooltip="Editar" (click)="openDialog('Actualizar',row)" class="iconbutton" color="primary">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button mat-icon-button matTooltip="Borrar menú" (click)="openDialogAccionUrs('Eliminar',row)" class="iconbutton" color="primary">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+    </table>
+    <mat-paginator (page)="pageEvent = $event" [pageSizeOptions]="pageSizeOptions" [pageSize]="_tam" [length]="totalRows"></mat-paginator>
+</div>
+<div *ngIf="pageEvent">
+    <!-- <div>Page size: {{pageEvent.pageSize}}</div> -->
+    <input type="hidden" id="pageSize" value="{{pageEvent.pageSize}}">
+</div>

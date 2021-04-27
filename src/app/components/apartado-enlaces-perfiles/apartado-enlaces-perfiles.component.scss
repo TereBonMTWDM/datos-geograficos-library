@@ -1,0 +1,67 @@
+.social-area {
+    height: 100%;
+    width: auto;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-rows: 48px;
+    grid-template-rows: 48px;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: end;
+}
+
+label.account_name {
+    margin-bottom: 0px;
+}
+
+.social-area ul {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    height: 100%;
+    -webkit-margin-before: 0;
+    margin-block-start: 0;
+    -webkit-margin-after: 0;
+    margin-block-end: 0;
+    padding: 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-padding-start: 0;
+    padding-inline-start: 0;
+}
+
+.social-area ul li {
+    height: 100%;
+    display: -ms-inline-grid;
+    display: inline-grid;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 12px;
+}
+
+.social-area ul li a {
+    text-decoration: none;
+    height: 100%;
+    display: -ms-grid;
+    display: grid;
+}
+
+.social-area ul li a i {
+    font-size: 14px;
+    margin: auto;
+    line-height: 2;
+}
+
+.social-area ul li:hover {
+    background: #b79d1d;
+    background: -webkit-gradient(linear, left top, left bottom, from(#b79d1d), color-stop(0%, #b79d1d), to(#025abc));
+    background: linear-gradient(180deg, #b79d1d 0%, #b79d1d 0%, #025abc 100%);
+}
+
+
+/*# sourceMappingURL=apartado-enlaces-perfiles.component.css.map */

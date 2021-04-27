@@ -1,0 +1,31 @@
+<div class="gto-container">
+    <div class="transparencia">
+        <div class="transparencia-logo" >
+            <a href="http://transparencia.guanajuato.gob.mx/transparencia/informacion_publica_directorio_externo.php?dependencia=36" target="_blank" rel="norefer">
+                <img title="Unidad de transparencia y archivos del poder ejecutivo" src="assets/img/Logo Footer Finanzas.svg" alt="transparencia-logo">
+                <h3>Acceso a la Unidad de Transparencia y Archivos del Poder Ejecutivo</h3>
+            </a>
+        </div>
+        <div class="transparencia-link-list">
+            <ul>
+                <li *ngFor="let enlace of enlacesFooter" [title]="enlace.title"><a target="_blank" [title]="enlace.title"  [href]="enlace.link">{{enlace.title}}</a>
+                </li>
+            </ul>
+            <button class="list-trigger" mat-button [matMenuTriggerFor]="menu" yPosition="below" title="Abrir menú de transparencia">
+                <i class="material-icons">arrow_drop_down</i>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button *ngFor="let enlace of enlacesFooter" mat-menu-item><a target="_blank"
+                        [href]="enlace.link" [title]="enlace.title" >{{enlace.title}}</a></button>
+            </mat-menu>
+            <!-- <div class="list-trigger">
+                <i class="material-icons">arrow_drop_down</i>
+            </div> -->
+        </div>
+        <div class="transparencia-lupa">
+            <div class="ico-area">
+                <i class="material-icons">search</i>
+            </div>
+        </div>
+    </div>
+</div>

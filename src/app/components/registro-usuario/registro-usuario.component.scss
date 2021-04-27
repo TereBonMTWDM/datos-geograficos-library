@@ -1,0 +1,96 @@
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+    flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+}
+
+mat-form-field {
+    margin-right: 12px;
+}
+
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.tituloPage {
+    padding-left: 25px;
+    padding-bottom: 2px;
+    background: #142392;
+    padding-top: 15px;
+    color: white;
+}
+
+.mat-toolbar[_ngcontent-wgh-c5] {
+    margin-bottom: 20px !important;
+}
+
+.anexoDiv {
+    display: flex;
+    float: right;
+    margin-top: -29px;
+    margin-bottom: -10px;
+}
+
+button.mat-raised-button.mat-button-base {
+    color: white;
+    background: orangered;
+}
+
+#map,
+#pano {
+    float: left;
+    height: 100%;
+    width: 50%;
+}
+
+
+/*toltip*/
+
+.toltipExample {
+    text-decoration: none;
+    position: relative;
+}
+
+.toltipExample p {
+    display: none;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    color: black;
+    background: white;
+}
+
+.toltipExample p {
+    float: left;
+    margin: 0px 8px 8px 0;
+}
+
+.toltipExample:hover p {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: auto;
+    max-width: 320px;
+    min-height: 128px;
+    border: 1px solid black;
+    margin-top: 12px;
+    margin-left: 32px;
+    overflow: hidden;
+    padding: 8px;
+}
+
+.iconCURP {
+    display: contents;
+}

@@ -1,0 +1,59 @@
+<div [formGroup]="form" >
+  <!-- <label [attr.for]="formElement.key">{{formElement.label}}</label> -->
+
+  <div [ngSwitch]="formElement.controlType">
+
+    <ng-container *ngSwitchCase="'input'" >
+      <mat-form-field *ngIf="formElement.type !== 'file'; else file" >
+        <input matInput [formControlName]="formElement.key" [minLength]="formElement?.maxLength"
+          [max]="formElement?.maxValue" [min]="formElement?.minValue" [maxLength]="formElement?.maxLength"
+          [title]="formElement.title" [placeholder]="formElement.placeholder" [id]="formElement.key"
+          [type]="formElement.type">
+      </mat-form-field>
+
+      <ng-template #file>
+        <input type="file"  [formControlName]="formElement.key"  [title]="formElement.title" [accept]='formElement.accept'
+          [placeholder]="formElement.placeholder" [id]="formElement.key">
+      </ng-template>
+      
+    </ng-container>
+
+    <ng-template #file>
+      <label class="fixedLabel" for="">{{ formElement.title }}</label> <br>
+      <input type="file"  [formControlName]="formElement.key"  [title]="formElement.title" [accept]='formElement.accept'
+        [placeholder]="formElement.placeholder" [id]="formElement.key">
+    </ng-template>
+
+    <mat-form-field *ngSwitchCase="'textArea'">
+      <textarea matInput [formControlName]="formElement.key" [title]="formElement.title"
+        [placeholder]="formElement.placeholder" #{{formElement.key}} [maxLength]="formElement?.maxLength"
+        [minLength]="formElement?.minLength" [type]="formElement.type"></textarea>
+      <mat-hint align="end">{{form?.controls[formElement?.key]?.value?.length}}/{{formElement?.maxValue}}</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'datePicker'">
+      <input matInput [min]="formElement.minDate" [max]="formElement.maxDate" [formControlName]="formElement.key"
+        [id]="formElement.key" [matDatepicker]="picker" [placeholder]="formElement.placeholder">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker [startView]="formElement.startView" [startAt]="formElement.startDate"></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field *ngSwitchCase="'select'">
+      <mat-label>{{formElement.title}}</mat-label>
+      <mat-select  [value]="formElement?.value" [id]="formElement.key" [formControlName]="formElement.key">
+        <ng-container *ngFor="let opt of formElement.options">
+          <mat-option [value]="opt.value">
+            {{opt.key}}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+
+  <mat-error *ngIf="!isValid && isTouched ">
+    Por favor ingresa un valor válido
+  </mat-error>
+
+  <!-- <div class="errorMessage" *ngIf="!isValid"></div> -->
+</div>

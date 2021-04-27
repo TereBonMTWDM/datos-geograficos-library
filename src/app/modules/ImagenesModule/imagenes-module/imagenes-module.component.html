@@ -1,0 +1,14 @@
+<br>
+<h3 *ngIf="dataMenuActual?.texto">Listado de {{dataMenuActual?.texto}}</h3>
+<br>
+<div class="row align-items-start">
+    <div class="col-12">
+        <br>
+        <!-- <app-imagen-upload></app-imagen-upload> -->
+    </div>
+</div>
+
+<app-imagenes-list></app-imagenes-list>
+
+
+<button mat-fab class="flotante" matTooltip="Subir nuevo documento" (click)="uploadDocs()" mat-flat-button color="primary"><i class="material-icons">file_upload</i></button>

@@ -1,0 +1,55 @@
+<div class="inline-title">
+    <h1>{{title}}</h1>
+</div>
+
+
+<mat-tab-group [selectedIndex]="selectedTab" (selectedIndexChange)="selectedTab = ($event)">
+    <!-- tab de la tabla del recurso -->
+    <mat-tab [label]="title">
+        <mat-form-field style="width: 50%;">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+            <mat-icon matSuffix>filter_list</mat-icon>
+        </mat-form-field>
+
+        <div class="responsive-table-container">
+            <table mat-table [dataSource]="dataSource" class="w-100">
+
+                <!-- Name Column -->
+                <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+                    <!-- actions column -->
+                    <ng-container *ngIf="col === 'actions';else columns" matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                        <td mat-cell *matCellDef="let element">
+                            <!-- <button mat-icon-button color="primary" matTooltip="Editar" matTooltipPosition="above" (click)="onEditResource(element)" title="editar" aria-label="editar">
+                                <mat-icon>edit</mat-icon>
+                            </button> -->
+                            <!-- <button mat-icon-button *ngIf="( element[model['statusField']] ) >= 0 " [matTooltip]="[0,false].includes(element[model['statusField']])? 'Activar':'Desactivar'" matTooltipPosition="above" [color]="[0,false].includes(element[model['statusField']]) ? 'warn':'accent' "
+                                (click)="onDeleteResource(element)" title="estado" aria-label="estado">
+                                <mat-icon>
+                                    {{[0,false].includes(element[model['statusField']]) ? 'toggle_off' : 'toggle_on'}}
+                                </mat-icon>
+                            </button> -->
+                        </td>
+                    </ng-container>
+
+                    <!-- column -->
+                    <ng-template #columns>
+                        <th mat-header-cell *matHeaderCellDef> {{col}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element[col]}} </td>
+                    </ng-template>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </mat-tab>
+
+    <!-- formulario de añadir o editar -->
+    <mat-tab [label]="resourceActionLabel">
+        <dgtit-form-builder *ngIf="formData && formData !== {} " (onSubmitedForm)="onFormDataReceived($event)" [formBuilderData]="formData"></dgtit-form-builder>
+    </mat-tab>
+
+</mat-tab-group>

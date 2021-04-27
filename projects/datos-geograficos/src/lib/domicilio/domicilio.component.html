@@ -1,0 +1,105 @@
+<div>
+    <mat-card>
+        <mat-list-item>Datos de Domicilio</mat-list-item>
+        <mat-grid-list cols="3">
+
+            <dgtit-geo-entidad entidad="Pais" [inputdata]="Pais" [habilitado]="false"
+                require="true" min="3" max="70" textoValido="true"
+                (onSelectCombo)="onDatosGeograficos($event, 'Pais')"
+            ></dgtit-geo-entidad>
+
+            <div *ngIf="show">
+                <dgtit-geo-entidad entidad="Estado" [inputdata]="Estado" [habilitado]="false"
+                    require="true" min="3" max="50" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'Estado')"
+                ></dgtit-geo-entidad>
+
+                <!--<dgtit-geo-entidad entidad="CP" [inputdata]="CP" [idEstado]="estadoSelectedId" [idMunicipio]="municipioSelectedId"
+                    require="true" min="3" max="100" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'CP')"
+                ></dgtit-geo-entidad>-->
+
+                <mat-form-field>
+                    <input matInput placeholder="Código Postal" autocomplete="off" [value]="CP"
+                        (change)="onChange($event, 'CP')">
+                </mat-form-field>
+
+                <dgtit-geo-entidad id="municipio" entidad="Municipio" [inputdata]="Municipio" [idEstado]="estadoSelectedId" [habilitado]="false"
+                    require="true" min="3" max="100" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'Municipio')"
+                ></dgtit-geo-entidad>
+                
+
+                <dgtit-geo-entidad entidad="Localidad" [inputdata]="Localidad" [idEstado]="estadoSelectedId" [idMunicipio]="municipioSelectedId"
+                    require="false" min="3" max="100" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'Localidad')"
+                ></dgtit-geo-entidad>
+                
+                <mat-form-field>
+                    <input matInput disabled
+                        placeholder="Zona" 
+                        autocomplete="off" [value]="Zona">
+                </mat-form-field>
+
+                <div *ngIf="otraColonia == ''; else showOtraColonia">
+                    <dgtit-geo-entidad entidad="Colonia" [inputdata]="Colonia" [idEstado]="estadoSelectedId" [idMunicipio]="municipioSelectedId" [colonias]="colonias"
+                    require="true" min="3" max="100" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'Colonia')"
+                    ></dgtit-geo-entidad>
+
+                </div>
+                <ng-template #showOtraColonia><!--style="background-color:cadetblue; color: white;"-->
+                    <mat-form-field>
+                        <input matInput placeholder="---Captura la otra colonia---" autocomplete="off" [value]="" 
+                            (change)="onChange($event, 'OtraColonia')">
+                    </mat-form-field>
+                </ng-template>
+
+                <div *ngIf="otraCalle == ''; else showOtraCalle">
+                    <dgtit-geo-entidad entidad="Calle" [inputdata]="Calle" [idEstado]="estadoSelectedId" [idMunicipio]="municipioSelectedId"
+                        require="true" min="3" max="100" textoValido="true"
+                        (onSelectCombo)="onDatosGeograficos($event, 'Calle')"
+                    ></dgtit-geo-entidad>
+                </div>
+                <ng-template #showOtraCalle>
+                    <mat-form-field>
+                        <input matInput placeholder="---Captura la otra calle---" autocomplete="off" [value]="" 
+                            (change)="onChange($event, 'OtraCalle')">
+                    </mat-form-field>
+                </ng-template>
+
+
+
+                <mat-form-field>
+                    <input matInput 
+                        placeholder="Número Exterior" 
+                        autocomplete="off" [value]="NumExt"
+                        (change)="onChange($event, 'NumExt')">
+                    <!-- <mat-error *ngIf="hasError('entreCalle1', 'maxlength')">Se excedió el límite de caracteres</mat-error> -->
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input  matInput
+                        placeholder="Número Interior" 
+                        autocomplete="off" [value]="NumInt"
+                        (change)="onChange($event, 'NumInt')">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput 
+                        placeholder="Entre Calle 1" 
+                        autocomplete="off" [value]="Entre1"
+                        (change)="onChange($event, 'Entre1')">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput 
+                        placeholder="Entre Calle 2" 
+                        autocomplete="off" [value]="Entre2"
+                        (change)="onChange($event, 'Entre2')">
+                </mat-form-field>
+                
+
+            </div>
+        </mat-grid-list>
+    </mat-card>
+</div>

@@ -1,0 +1,22 @@
+<mat-form-field class="example-full-width">
+    <input type="text" id="entidadId" placeholder="{{placeholder}}"
+        matInput [formControl]="Control" [value]="inputdata"
+        [matAutocomplete]="autocomplete" 
+        on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption()" (keydown.tab)="chooseFirstOption()"
+        autocomplete="off">
+    <mat-autocomplete #autocomplete="matAutocomplete" autoActiveFirstOption="true"
+        [displayWith]="Display" (optionSelected)="onSelectionChanged($event)">
+        <mat-option *ngFor="let option of Filtred | async | slice:0:10; trackBy:trackById" [value]="option.nombre">
+            {{option.nombre}}
+        </mat-option>
+    </mat-autocomplete>
+    <!--
+        <mat-error *ngIf="Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+        <mat-error *ngIf="Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>    -->
+        <mat-error *ngIf="Control.hasError('forbiddenNames')">
+            Debe seleccionar una opción de las sugeridas.
+            <strong>'{{Control.errors.forbiddenNames.value}}'</strong> no está permitido.
+        </mat-error>
+        <mat-error *ngIf="Control.errors?.required">El campo es requerido</mat-error>
+        
+</mat-form-field>

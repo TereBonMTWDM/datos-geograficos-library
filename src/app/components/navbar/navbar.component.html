@@ -1,0 +1,9 @@
+<mat-toolbar class="nav-bar-blue white-text">
+    <div class="gto-container">
+        <div class="logo-dependencia-container">
+            <img async [src]="navBarParams?.logoDependencia.link" loading="lazyloading" [routerLink]="'/'" [alt]="navBarParams?.logoDependencia?.nombre"  class="logotipo-dependencia"
+                alt="logo-secretaria-finanzas">
+        </div>
+        <dgtit-apartado-enlaces-menu [siteMapLink]="navBarParams?.siteMapLink" [menuItems]="navBarParams?.menu"></dgtit-apartado-enlaces-menu>
+    </div>
+</mat-toolbar>

@@ -1,0 +1,11 @@
+    .mat-dialog-actions .mat-button-base+.mat-button-base {
+        margin-left: 50px;
+    }
+    
+    .mat-dialog-actions {
+        display: contents !important;
+    }
+    
+    .mat-dialog-container {
+        overflow-x: hidden !important;
+    }

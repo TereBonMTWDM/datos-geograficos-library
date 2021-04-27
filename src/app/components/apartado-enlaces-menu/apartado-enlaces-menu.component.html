@@ -1,0 +1,233 @@
+<div class="menu-area-container">
+    <ul>
+        <!-- creación del menú -->
+        <li *ngFor="let item of menuItems" style="margin-right: 8%;">
+            <!-- si el item es un icono -->
+            <ng-container *ngIf="item.ico !== ''; else enlace">
+                <!-- item con href -->
+                <a *ngIf="item.link != null && item.link !='#'&& item.link != ''; else routerLinkItem " [href]="item.link" [title]="item.label">
+                    <i class="material-icons" x-ms-format-detection="none"> {{item.ico}}</i>
+                </a>
+                <!-- item con routerlink -->
+                <ng-template #routerLinkItem>
+                    <a *ngIf="item.routerLink !== null || item.routerLink " [routerLink]="item.routerLink" [title]="item.label">
+                        <i class="material-icons" x-ms-format-detection="none"> {{item.ico}}</i>
+                    </a>
+                </ng-template>
+            </ng-container>
+
+            <!-- si el item es un enlace -->
+            <ng-template #enlace>
+                <!-- el enlace tiene un menu? -->
+                <ng-container *ngIf="item?.submenu.length < 1; else menu">
+                    <!-- item con href -->
+                    <a *ngIf="item.link != null && item.link !='#'&& item.link != ''; else routerLinkItemEnlace " [href]="item.link" target="_blank" rel="noopener noreferrer" [title]="item.label">
+                        {{item.nombre | uppercase}}
+                    </a>
+                    <!-- item con router link -->
+                    <ng-template #routerLinkItemEnlace>
+                        <a *ngIf="item.routerLink !== null || item.routerLink " [routerLink]="item.routerLink" [title]="item.label">
+                            {{item.nombre | uppercase}}
+                        </a>
+                    </ng-template>
+                </ng-container>
+
+                <!-- si el enlace tiene menu -->
+                <ng-template #menu>
+                    <a mat-button [matMenuTriggerFor]="appMenu" [title]="item.label" [matMenuTriggerData]="{data: item?.submenu}">
+                        {{ item.nombre | uppercase }}
+                        <i class="material-icons" style="vertical-align: middle; color: white">arrow_drop_down</i>
+                    </a>
+                </ng-template>
+            </ng-template>
+        </li>
+
+        <!-- Mapa del sitio -->
+        <li>
+            <a title="mapa del sitio" [href]="siteMapLink" target="_blank" rel="nofollow">
+                <i href="" class="fas fa-sitemap" x-ms-format-detection="none"> </i>
+            </a>
+        </li>
+
+        <!-- búsqueda -->
+        <li>
+            <a title="búsqueda" (click)="toogleSearchPanel()">
+                <i class="material-icons" id="search-trigger" x-ms-format-detection="none">
+                    {{ !isSearchPanelShowing ? 'search': 'close' }}</i>
+            </a>
+        </li>
+    </ul>
+
+    <a class="movil-menu-trigger">
+        <i [matMenuTriggerFor]="movilMenu" title="Desplegar menú" [matMenuTriggerData]="{data: menuItems}" class="material-icons">menu</i>
+        <i class="material-icons" (click)="toogleSearchPanel()">{{ !isSearchPanelShowing ? 'search': 'close' }}</i>
+    </a>
+</div>
+
+<!-- estructura de los mmenus -->
+
+<!-- menu movil -->
+<mat-menu #movilMenu="matMenu">
+    <ng-template matMenuContent let-data="data">
+        <ng-container *ngFor="let item of data">
+
+            <!-- el enlace no tiene sub menu? -->
+            <ng-container *ngIf="item.submenu.length < 1 && !item.ico; else nestedMenu">
+
+                <!-- item con href -->
+                <a *ngIf="item.link != null && item.link !='#'&& item.link != ''; else routerLinkItemEnlace " [href]="item.link" target="_blank" rel="noopener noreferrer" [title]="item.nombre" mat-menu-item>
+                    {{item.nombre | uppercase}}
+                </a>
+                <!-- item con router link -->
+                <ng-template #routerLinkItemEnlace>
+                    <a *ngIf="item.routerLink !== null || item.routerLink " [routerLink]="item.routerLink" [title]="item.nombre" mat-menu-item>
+                        {{item.nombre | uppercase}}
+                    </a>
+                </ng-template>
+            </ng-container>
+
+            <!-- si el enlace tiene submenu -->
+            <ng-template #nestedMenu>
+                <a *ngIf="!item.ico" [title]="item.nombre" mat-menu-item [matMenuTriggerFor]="nested" [matMenuTriggerData]="{data: item?.submenu}">{{item.nombre | uppercase}}</a>
+            </ng-template>
+
+        </ng-container>
+    </ng-template>
+</mat-menu>
+
+<!-- menu -->
+<mat-menu #appMenu="matMenu">
+    <ng-template matMenuContent let-data="data">
+        <ng-container *ngFor="let subItem of data">
+
+            <ng-container *ngIf="subItem.submenu.length < 1; else nestedMenu ">
+                <!-- item con href -->
+                <a *ngIf="subItem.link != null && subItem.link !='#'&& subItem.link != ''; else routerLinkItem " [href]="subItem.link" target="_blank" rel="noopener noreferrer" [title]="subItem.nombre" mat-menu-item>
+                    {{subItem.nombre}}
+                </a>
+
+                <!-- item con roterlink -->
+                <ng-template #routerLinkItem>
+                    <a *ngIf="subItem.routerLink !== null || subItem.routerLink " [routerLink]="subItem.routerLink" [title]="subItem.nombre" mat-menu-item>
+                        {{subItem.nombre}}
+                    </a>
+                </ng-template>
+            </ng-container>
+
+            <!-- si el enlace tiene submenu -->
+            <ng-template #nestedMenu>
+                <a mat-menu-item [matMenuTriggerFor]="nested" [title]="subItem.nombre" [matMenuTriggerData]="{data: subItem?.submenu}">{{subItem.nombre}}</a>
+            </ng-template>
+
+        </ng-container>
+    </ng-template>
+</mat-menu>
+
+<!-- estructura de un subbmenú con identación 1 -->
+<mat-menu #nested="matMenu">
+    <ng-template matMenuContent let-data="data">
+        <ng-container *ngFor="let nested of data">
+
+            <!-- subenlace tiene otro nivel de identación? -->
+            <ng-container *ngIf="nested.submenu.length < 1; else nested2Menu">
+                <!-- item con href -->
+                <a *ngIf=" nested.link !=null && nested.link !='#' && nested.link !='' ; else routerLinkItem " [href]=" nested.link" target="_blank" rel="noopener noreferrer" [title]="nested.nombre" mat-menu-item>
+                    {{nested.nombre}}
+                </a>
+
+                <!-- item con roterlink -->
+                <ng-template #routerLinkItem>
+                    <a *ngIf="nested.routerLink !== null || nested.routerLink " [routerLink]="nested.routerLink" [title]="nested.nombre" mat-menu-item>
+                        {{nested.nombre}}
+                    </a>
+                </ng-template>
+            </ng-container>
+
+            <!-- subenlace con nivel de identación 2 -->
+            <ng-template #nested2Menu>
+                <a mat-menu-item [matMenuTriggerFor]="nested2" [title]="nested.nombre" [matMenuTriggerData]="{data: nested?.submenu}">{{nested.nombre}}</a>
+            </ng-template>
+
+        </ng-container>
+    </ng-template>
+</mat-menu>
+
+
+<!-- estructura de un subbmenú con identación 2 -->
+<mat-menu #nested2="matMenu">
+    <ng-template matMenuContent let-data="data">
+        <ng-container *ngFor="let nested2 of data">
+
+            <ng-container *ngIf="nested2.submenu.length < 1; else nested3Menu">
+
+                <!-- item con href -->
+                <a *ngIf=" nested2.link !=null && nested2.link !='#' && nested2.link !='' ; else routerLinkItem " [href]=" nested2.link" target="_blank" rel="noopener noreferrer" [title]="nested2.nombre" mat-menu-item>
+                    {{nested2.nombre}}
+                </a>
+
+                <!-- item con roterlink -->
+                <ng-template #routerLinkItem>
+                    <a *ngIf="nested2.routerLink !== null || nested2.routerLink " [routerLink]="nested2.routerLink" [title]="nested2.nombre" mat-menu-item>
+                        {{nested2.nombre}}
+                    </a>
+                </ng-template>
+            </ng-container>
+
+            <ng-template #nested3Menu>
+                <a mat-menu-item [matMenuTriggerFor]="nested3" [title]="nested2.nombre" [matMenuTriggerData]="{data: nested2?.submenu}">{{nested2.nombre}}</a>
+            </ng-template>
+
+        </ng-container>
+    </ng-template>
+</mat-menu>
+<!-- botón principal del enlace que lanza el menú -->
+
+
+
+<mat-menu #nested3="matMenu">
+    <ng-template matMenuContent let-data="data">
+        <ng-container *ngFor="let nested3 of data">
+
+            <ng-container *ngIf="nested3.submenu.length < 1; else nested4Menu">
+
+                <!-- item con href -->
+                <a *ngIf=" nested3.link !=null && nested3.link !='#' && nested3.link !='' ; else routerLinkItem " [href]=" nested3.link" target="_blank" rel="noopener noreferrer" [title]="nested3.nombre" mat-menu-item>
+                    {{nested3.nombre}}
+                </a>
+
+                <!-- item con roterlink -->
+                <ng-template #routerLinkItem>
+                    <a *ngIf="nested3.routerLink !== null || nested3.routerLink " [routerLink]="nested3.routerLink" [title]="nested3.nombre" mat-menu-item>
+                        {{nested3.nombre}}
+                    </a>
+                </ng-template>
+            </ng-container>
+
+            <ng-template #nested4Menu>
+                <a mat-menu-item [matMenuTriggerFor]="nested4" [title]="nested3.nombre" [matMenuTriggerData]="{data: nested3?.submenu}">{{nested3.nombre}}</a>
+            </ng-template>
+
+        </ng-container>
+    </ng-template>
+</mat-menu>
+
+
+<!-- estructura de un subbmenú con identación 4 -->
+<mat-menu #nested4="matMenu">
+    <ng-template matMenuContent let-data="data">
+        <ng-container *ngFor="let nested4 of data">
+            <!-- item con href -->
+            <a *ngIf=" nested4.link !=null && nested4.link !='#' && nested4.link !='' ; else routerLinkItem " [href]=" nested4.link" target="_blank" rel="noopener noreferrer" [title]="nested4.nombre" mat-menu-item>
+                {{nested4.nombre}}
+            </a>
+            <!-- item con roterlink -->
+            <ng-template #routerLinkItem>
+                <a *ngIf="nested4.routerLink !== null || nested4.routerLink " [routerLink]="nested4.routerLink" [title]="nested4.nombre" mat-menu-item>
+                    {{nested4.nombre}}
+                </a>
+            </ng-template>
+
+        </ng-container>
+    </ng-template>
+</mat-menu>
+<!-- botón principal del enlace que lanza el menú -->

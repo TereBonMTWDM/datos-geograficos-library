@@ -1,0 +1,14 @@
+<div align="center" style="padding-top: 0%; padding-left: 0%;padding-right: 0%; overflow-x: hidden !important;">
+    <div style="color: white; background: #FF5722;padding-left: 0%;padding-right: 0%; box-shadow: 1px 4px 4px rgba(0,0,0,.15);">
+        <i style="padding-top: 5px;font-size: 30px;" class="material-icons">warning</i>
+        <h1 mat-dialog-title>{{data.action}}</h1>
+    </div>
+    <div mat-dialog-content>
+        <p>¿Seguro que desea {{data.action}} {{data?.texto}}?</p>
+    </div>
+    <br><br>
+    <div mat-dialog-actions>
+        <button mat-button mat-raised-button color="warn" [mat-dialog-close]=true cdkFocusInitial>Si, {{data.action}}</button>
+        <button mat-button (click)="onNoClick()">No</button>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<form [formGroup]="documentStep">
+    <table>
+        <thead>
+            <tr>
+                <th><span style="display: flex;">
+                    <!-- <mat-checkbox id="checkAll" (click)="checkUncheckAll()"></mat-checkbox>--><b>&nbsp; Documentos:</b> 
+                </span></th>
+                <th><span><b>Selecciona si el documento es obligatorio:</b></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <mat-checkbox *ngFor="let document of doc" formControlName="document" class="checkList" (change)="onCheckboxChanges(document.idDocument)" [id]="'document_'+document.idDocument" [value]="''+document.idDocument">{{document.nombre}}
+                    </mat-checkbox>
+                </td>
+                <td>
+                    <mat-checkbox *ngFor="let document of doc" formControlName="requieredCheck" class="checkListRequiered" [id]="'requiered_'+document.idDocument" [value]="''+document.idDocument">Requerido</mat-checkbox>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

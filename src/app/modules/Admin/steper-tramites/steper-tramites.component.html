@@ -1,0 +1,33 @@
+<mat-vertical-stepper #stepper>
+    <mat-step>
+        <ng-template matStepLabel>Fill out your name</ng-template>
+        <input matInput placeholder="Last name, First name" required>
+        <div>
+            <button mat-button matStepperNext>Next</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Fill out your address</ng-template>
+        <input matInput placeholder="Address" required>
+        <div>
+            <button mat-button matStepperPrevious>Atras</button>
+            <button mat-button matStepperNext>Next</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Documentos</ng-template>
+        <div>
+            <app-document-selector></app-document-selector>
+            <button mat-button matStepperPrevious>Atras</button>
+            <button mat-button matStepperNext [disabled]="!this.documentos.documentStep.valid" (click)="this.documentos.saveDocuments()">Guardar y Seguir</button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel>Finalizar</ng-template>
+        You are now done.
+        <div>
+            <button mat-button matStepperPrevious>Atras</button>
+            <button mat-stroked-button color="primary" style="margin-right: 20px" class="button" type="submit" id="save">Guardar</button>
+        </div>
+    </mat-step>
+</mat-vertical-stepper>

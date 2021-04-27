@@ -1,0 +1,8 @@
+<mat-form-field>
+    <mat-label>Trámites:</mat-label>
+    <mat-select (selectionChange)="onSelected($event.value)">
+        <mat-option *ngFor="let item of tramites" [value]="item.nombre">
+            {{item.nombre}}
+        </mat-option>
+    </mat-select>
+  </mat-form-field>

@@ -1,0 +1,24 @@
+<div>
+    <h1 style="color: royalblue; font-size: 25;">Mapa de sitio</h1>
+    <hr>
+
+    <app-tree-view [menuList]="data"></app-tree-view>
+    <!-- lista -->
+    <!-- <ul>
+        <li *ngFor="let item of data">
+            !-- el enlace tiene un menu? --
+            <ng-container *ngIf="item?.submenu.length < 1;">
+                !-- item con href --
+                <a *ngIf="item.link != null && item.link !='#'&& item.link != ''; else routerLinkItemEnlace || item.nombre !='Público' " [href]="item.link" target="_blank" rel="noopener noreferrer" [title]="item.label">
+                        {{item.nombre | uppercase}}
+                </a>
+                !-- item con router link --
+                <ng-template #routerLinkItemEnlace>
+                    <a *ngIf="item.routerLink !== null || item.routerLink " [routerLink]="item.routerLink" [title]="item.label">
+                    {{item.nombre | uppercase}}
+                </a>
+                </ng-template>
+            </ng-container>
+        </li>
+    </ul> -->
+</div>

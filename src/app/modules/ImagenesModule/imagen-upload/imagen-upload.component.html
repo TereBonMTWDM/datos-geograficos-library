@@ -1,0 +1,72 @@
+<h3 class="tituloPage">Expediente digital</h3>
+<div class="container">
+    <div class="infoExpedienteDigital">
+        <mat-grid-list cols="3" rowHeight="40px" rowWidht="20px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <b>Interesado(a):</b> Armando Flores
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <b>Documento:</b> CURP
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <b>Estado:</b> Pendiente
+            </mat-grid-tile>
+
+        </mat-grid-list>
+        <mat-grid-list cols="1" rowHeight="40px" rowWidht="20px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <b>Descripción:</b> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+    <div>
+        <mat-card class="example-card">
+            <mat-card-header>
+                <mat-card-title style="color: #0e107e; margin-top: 10px;">Especificaciónes para alta del documento digital</mat-card-title>
+            </mat-card-header>
+            <br>
+            <mat-card-content>
+                <p>
+                    Formato de archivos permitidos:<b>PDF</b>
+                </p>
+                <p>
+                    Tamaño Máxmo:<b>2 MB</b>
+                </p>
+                <ul>
+                    <li>El escaneo de los documentos debe ser de los originales, a color, legibles, bien enfocados, con el formato completo y no presentar dobleces.</li>
+                    <li>El tamaño ideal de un documento digitalizado es de 400kb o menos. En caso de ser mayor se recomienda reducir su tamaño.
+                    </li>
+                </ul>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <hr>
+    <h6><b>Archivo</b></h6>
+    <hr>
+    <div class="container">
+        <form [formGroup]="formUpload">
+            <mat-button-toggle-group name="anexarDocumento" aria-label="Font Style">
+                <mat-button-toggle class="nameFile" style="width: 480px;" *ngIf="!file; else fileName">
+                    <h6 class="file-name">Sin archivo seleccionado</h6>
+                </mat-button-toggle>
+                <mat-button-toggle (click)="uploadImage(file.name)" [disabled]=!file style="background: #35a8e0;color:white;"><i style="font-size: 15px; color:white;" class="material-icons">file_upload</i> Subir</mat-button-toggle>
+                <input formControlName="documentUpload" type="file" style="display: none" #fileInput accept="image/jpeg,image/png,application/pdf" (change)="onChangeFileInput()" />
+                <mat-button-toggle (click)="onClickFileInputButton()" style="background: #06af60;color:white;"><i style="font-size: 15px; color:white;" class="material-icons">attach_file</i> Anexar
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </form>
+        <ng-template #fileName>
+            <mat-button-toggle class="nameFile" style="width: 443px;">
+                <h6 class="file-name">{{ file?.name }}</h6>
+            </mat-button-toggle>
+            <mat-button-toggle class="nameFile">
+                <h6 class="file-name" style="color: #868686;" (click)="quitaArchivo()">X</h6>
+            </mat-button-toggle>
+        </ng-template>
+        <br>
+        <mat-progress-bar mode="determinate" value={{progreso}}></mat-progress-bar>
+        <div style="float: right;">{{progreso}}%</div>
+    </div>
+    <br>
+    <button mat-stroked-button (click)="closeDialog()" style="margin-top: 20px;" class="boton-gray uploadDocument">Cancelar</button>
+</div>

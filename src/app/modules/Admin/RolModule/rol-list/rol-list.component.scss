@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+}
+
+.flotante {
+    display: scroll;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 100;
+    background: #00a985 !important;
+}
+
+/*
+th.mat-header-header {
+    color: white !important;
+}
+
+
+mat-sort-header {
+    color: white !important;
+}
+*/

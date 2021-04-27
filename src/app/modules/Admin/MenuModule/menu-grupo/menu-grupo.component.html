@@ -1,0 +1,37 @@
+<button mat-fab (click)="asignarMenus()" class="addInTable" matTooltip="Asignar menús" mat-mini-fab color="primary">
+    <i *ngIf="listarAsignados == true; else Remove" class="material-icons">add</i>
+    
+    <ng-template #Remove>
+        <i class="material-icons">remove</i>
+    </ng-template>                    
+</button>
+<app-menu-asign [listarAsignados]="listarAsignados"
+    [rolMenuAsignados]="menuAsignado" (menusDeleted)="onDeleteMenus($event)"
+    [rolMenuNoAsignados]="menuNoAsignado" (menusAdded)="onRolMenuAsignar($event)"  (cancelAsignar)="onCancel()"  >
+</app-menu-asign>
+
+
+
+<!-- 
+<button mat-fab (click)="asignarMenus()" class="addInTable" matTooltip="Asignar menús" mat-mini-fab color="primary">
+    <i *ngIf="menusAsignados == true; else RemoveMenus" class="material-icons">add</i>
+    
+    <ng-template #RemoveMenus>
+        <i class="material-icons">remove</i>
+    </ng-template>                    
+</button>
+
+<app-menu-asignados *ngIf="menusAsignados == true; else AsignarMenus" 
+    [rolMenuAsignados]="rolMenu" [rolMenuAsignadosTmp]="rolMenuTmp"
+    (rolMenusTmp)="onRolMenu($event)"
+    (menusDeleted)="onDeleteMenus($event)">
+</app-menu-asignados>
+
+<ng-template #AsignarMenus>
+    <app-menu-asignar 
+        [rolMenuAsignados]="rolMenu" 
+        [rolMenuAsignadosTmp]="rolMenuTmp" 
+        (rolMenusTmp)="onRolMenuAsignar($event)" 
+        [rol]="rol" (close)="asignarMenuCancel($event)">
+    </app-menu-asignar>
+</ng-template> -->

@@ -1,0 +1,62 @@
+mat-toolbar {
+    height: 92px;
+  }
+  
+  img:active, img:focus {
+    outline: none !important;
+  }
+  
+  .pleca:before {
+    content: "";
+    background-color: #C8C8AA;
+    position: absolute;
+    height: 92px;
+    width: calc(50% - 474px);
+    left: 0;
+    z-index: 0;
+    -webkit-animation: 0.7s ease-in backwards pleca-in;
+            animation: 0.7s ease-in backwards pleca-in;
+  }
+  
+  .gto-container {
+    z-index: 1;
+    height: 100%;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  
+  @media (max-width: 1100px) {
+    .pleca:before {
+      width: 139px !important;
+    }
+    mat-toolbar:before {
+      width: 139px !important;
+    }
+  }
+  
+  dgtit-apartado-enlaces-menu {
+    width: 80%;
+  }
+  
+  @-webkit-keyframes pleca-in {
+    from {
+      width: calc(50% - 1300px);
+    }
+    to {
+      width: calc(50% - 474px);
+    }
+  }
+  
+  @keyframes pleca-in {
+    from {
+      width: calc(50% - 1300px);
+    }
+    to {
+      width: calc(50% - 474px);
+    }
+  }
+  /*# sourceMappingURL=navbar.component.css.map */

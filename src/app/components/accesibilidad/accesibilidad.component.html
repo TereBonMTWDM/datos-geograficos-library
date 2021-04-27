@@ -1,0 +1,34 @@
+<!-- <div class="accesibilidad" *ngIf="isShowed">
+    <ul>
+        <li>
+            <a title="cerrar accesibilidad">
+                <i class="material-icons" (click)="onCloseAccesibilidad()">
+                    close
+                </i>
+            </a>
+        </li>
+        <li>
+            <a title="desactivar narrador">
+                <i class="material-icons" (click)="toogleScreenReader()">
+                    {{this.accesibilidadService.isActive ? 'volume_up' : 'volume_off'}}
+                </i>
+            </a>
+        </li>
+        <li>
+            <a [title]="!this.accesibilidadService.isZoomed ? 'acercar' : 'alejar'">
+                <i class="material-icons" (click)="this.accesibilidadService.toogleZoom()">
+                    {{!this.accesibilidadService.isZoomed ? 'zoom_in' : 'zoom_out'}}
+                </i>
+            </a>
+        </li>
+    </ul>
+</div> -->
+<div style="position: fixed;" id="moduloAccesibilidad2" > 
+    <div class="ocultaAccesible" style="background-color: transparent;padding: 0px 0px 0px 11px;"><img id="cerrarAccesibleT" title="Cerrar" src="https://www.guanajuato.gob.mx/imagesD/x-acs.svg"></div>
+    <div  id="_biggtxt" ><img title="Aumentar Texto" class="biggertxt"  src="assets/img/txtplus.svg"></div>
+    <div id="_smalltxt"  ><img title="Reducir Texto"  class="accesible1" src="assets/img/txt-.svg"></div>
+    <div  id="lecturaSeleccionV2" ><img title="Activar Lectura" class="accesible1" src="assets/img/audio-.svg"></div> 
+    <div  id="reconocimientoVozV2" class="activoAccesibilidad"><img title="Activar Microfono" class="accesible1" src="assets/img/micro-.svg"></div>
+    <div  id="zoominV2" ><img title="Aumentar tamaño de contenido" class="accesible1" src="assets/img/lupaplus.svg"></div>
+    <div  id="zoomoutV2" ><img title="Restablecer tamaño" class="accesible1" src="assets/img/lupa-.svg"></div>    
+</div>

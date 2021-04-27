@@ -1,0 +1,484 @@
+<div *ngIf="onDialog==1" class="tituloPage">
+    <h2>Perfil de Usuario</h2>
+</div>
+
+<div *ngIf="onDialog==0">
+    <br><br>
+    <h1>Perfil de Usuario</h1>
+    <p>Registra tus datos para poder agendar una cita para tu trámite.</p>
+</div>
+
+<div>
+    <!-- <test-domicilio></test-domicilio> -->
+    <test-curp></test-curp>
+</div>
+<!-- <div>
+    <h2>Test by combo:</h2>
+    <dgtit-geo-entidad entidad="Pais" [inputdata]="NacPais" 
+        require="true" min="3" max="70" textoValido="true"
+        (onSelectCombo)="onDatosGeograficos($event, 'NacPais')"
+    ></dgtit-geo-entidad>
+
+    <dgtit-geo-entidad entidad="Estado" [inputdata]="NacEstado" 
+        require="false" min="4" max="6" textoValido="true"
+        (onSelectCombo)="onDatosGeograficos($event, 'NacEstado')"
+    ></dgtit-geo-entidad>
+
+    <dgtit-geo-entidad entidad="Municipio" [inputdata]="NacMunicipio" [idEstado]="estadoNacSelectedId"
+        require="true" min="3" max="100" textoValido="true"
+        (onSelectCombo)="onDatosGeograficos($event, 'NacMunicipio')"
+    ></dgtit-geo-entidad>
+
+    <dgtit-geo-entidad entidad="Localidad" [inputdata]="NacLocalidad" [idEstado]="estadoNacSelectedId" [idMunicipio]="municipioNacSelectedId"
+        require="true" min="3" max="100" textoValido="true"
+        (onSelectCombo)="onDatosGeograficos($event, 'NacLocalidad')"
+    ></dgtit-geo-entidad>
+</div> -->
+
+
+<!-- <div>
+    <div>
+        <h2>Test By Combos de Nacimiento</h2>
+        <dgtit-geo-nacimiento [nacimiento]="nacimiento"
+            (onSelect)="onDatosGeograficosByNacimiento($event)"
+        ></dgtit-geo-nacimiento>
+    </div>   
+</div>  -->
+<!--
+<div>
+    <div>
+        <h2>Test Inputs CURP</h2>
+        <dgtit-geo-curp [curp]="curp" (onDatos)="onDatosCurp($event)"></dgtit-geo-curp>
+    </div>   
+</div> 
+-->
+<!--
+ <div>
+    <div>
+        <h2>Test By Combos de Domicilio</h2>
+        <dgtit-geo-domicilio [domicilio]="domicilio"
+        (onSelect)="onDatosGeograficosByDomicilio($event)"
+        ></dgtit-geo-domicilio>
+    </div>   
+</div> 
+-->
+
+<hr><br><br><br><br><br><br>
+
+<form [formGroup]="RegistroUsuario" autocomplete="off">
+    <mat-list>
+        <mat-card>
+            <mat-list-item>Datos Personales</mat-list-item>
+            <mat-grid-list cols="3" rowHeight="60px" rowWidht="25px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput formControlName="CURP" placeholder="*CURP" #CURP onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" (keyup)="getDatosPersonalesRenapo($event)" (keyup.enter)="getDatosPersonalesRenapo($event)" (keydown.tab)="getDatosPersonalesRenapo($event)">
+                        <mat-error *ngIf="hasError('CURP', 'required')">El campo es requerido </mat-error>
+                        <mat-error *ngIf="hasError('CURP', 'maxlength')">Se excedió el límite de 18 caracteres</mat-error>
+                        <p *ngIf="this.curpNoValida" class="mensaje" style="color: rgb(228, 24, 75);margin-bottom: -21px;font-size: 12px;margin-top: 7px;">CURP no existe</p>
+                        <mat-error *ngIf="hasError('CURP', 'pattern')">Ingrese una CURP valida</mat-error>
+                        <mat-icon *ngIf="this.curpValidaIcon" style="color: rgb(13, 211, 13); display: flex;margin-top: -24px; float: right;" matTooltip="CURP Validada">done</mat-icon>
+                        <mat-icon *ngIf="this.curpNoValida" style="color: rgb(228, 24, 75); display: flex;margin-top: -24px; float: right;" matTooltip="CURP Invalida">error_outline</mat-icon>
+                    </mat-form-field>
+
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="2" [rowspan]="1">
+                    <mat-option *ngIf="this.espera" class="iconCURP">
+                        <mat-spinner diameter="15"></mat-spinner>
+                    </mat-option>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+
+                    <mat-form-field>
+                        <input formControlName="nombreUsuario" matInput placeholder="*Nombre" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off">
+                        <mat-hint align="end">Máximo 70 caracteres</mat-hint>
+                        <mat-error *ngIf="hasError('nombreUsuario', 'required')">El campo es requerido </mat-error>
+                        <mat-error *ngIf="hasError('nombreUsuario', 'maxlength')">Se excedió el límite de 70 caracteres</mat-error>
+                        <mat-error *ngIf="hasError('nombreUsuario', 'pattern')">Ingrese un nombre valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput formControlName="apellidoPaterno" placeholder="*Apellido Paterno" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off">
+                        <mat-error *ngIf="hasError('apellidoPaterno', 'required')">El campo es requerido </mat-error>
+                        <mat-error *ngIf="hasError('apellidoPaterno', 'maxlength')">Se excedió el límite de 70 caracteres</mat-error>
+                        <mat-error *ngIf="hasError('apellidoPaterno', 'pattern')">Ingrese un apellido valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput formControlName="apellidoMaterno" placeholder="Apellido Materno" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off">
+                        <mat-error *ngIf="hasError('apellidoMaterno', 'required')">El campo es requerido </mat-error>
+                        <mat-error *ngIf="hasError('apellidoMaterno', 'maxlength')">Se excedió el límite de 70 caracteres</mat-error>
+                        <mat-error *ngIf="hasError('apellidoMaterno', 'pattern')">Ingrese un apellido valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput ui-validate=" 'isOdd($value)' " formControlName="RFC" placeholder="*RFC" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off">
+                        <mat-error *ngIf="hasError('RFC', 'required')">El campo es requerido </mat-error>
+                        <mat-error *ngIf="hasError('RFC', 'maxlength')">Se excedió el límite de 13 caracteres</mat-error>
+                        <mat-error *ngIf="hasError('RFC', 'minlength')">El número de caracteres minimos es de 13</mat-error>
+                        <mat-error *ngIf="hasError('RFC', 'pattern')">Ingrese un RFC valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput placeholder="*Teléfono Movil" formControlName="telefonoMovil" [(value)]="telMovil" type="tel" size="tel" autocomplete="off">
+                        <mat-error *ngIf="hasError('telefonoMovil', 'required')">El campo es requerido </mat-error>
+                        <mat-error *ngIf="hasError('telefonoMovil', 'maxlength')">Se excedió el límite de 15 caracteres</mat-error>
+                        <mat-error *ngIf="hasError('telefonoMovil', 'pattern')">Ingrese un número telefónico valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput placeholder="Teléfono Fijo" formControlName="telefonoFijo" [(value)]="telFijo" type="tel" size="tel" autocomplete="off">
+                        <mat-error *ngIf="hasError('telefonoFijo', 'required')">El campo es requerido </mat-error>
+                        <mat-error *ngIf="hasError('telefonoFijo', 'maxlength')">Se excedió el límite de 15 caracteres</mat-error>
+                        <mat-error *ngIf="hasError('telefonoFijo', 'pattern')">Ingrese un número telefónico valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <mat-label>*Sexo</mat-label>
+                        <mat-select formControlName="sexo">
+                            <mat-option></mat-option>
+                            <mat-option value=2>Masculino</mat-option>
+                            <mat-option value=1>Femenino</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="hasError('sexo', 'required')">El campo es requerido </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+            <input type="hidden" formControlName="abrevEstadoNac">
+            <input type="hidden" formControlName="abrevEstadoDom">
+        </mat-card>
+        <br>
+        <mat-divider></mat-divider>
+        <mat-card>
+            <mat-list-item>Datos de Nacimiento</mat-list-item>
+            <mat-grid-list cols="3" rowHeight="60px" rowWidht="20px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <input matInput [max]="maxDate" [min]="minDate" formControlName="fechaNacimiento" placeholder="*Fecha de Nacimiento" [matDatepicker]="picker" (focus)="picker.open()" readonly #fechaNacimiento autocomplete="off">
+                        <mat-error *ngIf="hasError('fechaNacimiento', 'required')">El campo es requerido </mat-error>
+                    </mat-form-field>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="*País de Nacimiento" matInput [formControl]="paisNacControl" [matAutocomplete]="completePaisNac" id="paisNacModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                            autocomplete="off">
+                        <mat-autocomplete #completePaisNac="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSelectionChanged($event, 'paisNacModel')">
+                            <mat-option *ngFor="let option of paisNacFiltred | async; trackBy:trackByIdPais" [value]="option">
+                                {{option.pais}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="paisNacControl.errors?.required">El campo es requerido</mat-error>
+                        <mat-error *ngIf="paisNacControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                        <mat-error *ngIf="paisNacControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <div *ngIf="filtrar_acentos(paisNacSelected.toString().toLowerCase().trim()) == 'mexico'">
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Estado" matInput [formControl]="edoNacControl" [matAutocomplete]="completeEstado" id="estadoNacModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeEstado="matAutocomplete" [displayWith]="EdoDisplay" (optionSelected)="onSelectionChanged($event, 'estadoNacModel')">
+                                <mat-option *ngFor="let option of edoNacFiltred | async; trackBy:trackByIdEstado" [value]="option">
+                                    {{option.entidad}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="edoNacControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="edoNacControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="edoNacControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Municipio" matInput [formControl]="muniNacControl" [matAutocomplete]="completeMunicipio" id="municipioNacModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeMunicipio="matAutocomplete" [displayWith]="MuniDisplay" (optionSelected)="onSelectionChanged($event, 'municipioNacModel')">
+                                <mat-option *ngFor="let option of muniNacFiltred | async; trackBy:trackByIdMunicipio" [value]="option">
+                                    {{option.municipio}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="muniNacControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="muniNacControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="edoNacControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="2" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Localidad" matInput [formControl]="localidadNacControl" [matAutocomplete]="completeLocalidad" id="localidadNacModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeLocalidad="matAutocomplete" [displayWith]="LocalidadDisplay" (optionSelected)="onSelectionChanged($event, 'localidadNacModel')">
+                                <mat-option *ngFor="let option of localNacFiltred | async" [value]="option">
+                                    {{option.localidad}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="localidadNacControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="localidadNacControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="localidadNacControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </div>
+            </mat-grid-list>
+        </mat-card>
+        <br>
+        <mat-divider></mat-divider>
+        <mat-card>
+            <mat-list-item>Datos de Domicilio</mat-list-item>
+            <mat-grid-list cols="3" rowHeight="60px" rowWidht="20px">
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field class="example-full-width">
+                        <input #paisDom type="text" placeholder="*País del domicilio actual" aria-label="Assignee" matInput [formControl]="paisDomControl" [matAutocomplete]="completePaisDom" id="paisDomModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)"
+                            (keydown.tab)="chooseFirstOption($event)" autocomplete="off">
+                        <mat-autocomplete #completePaisDom="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onSelectionChanged($event, 'paisDomModel')">
+                            <mat-option *ngFor="let option of paisDomFiltred | async; trackBy:trackByIdPais" [value]="option">
+                                {{option.pais}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error *ngIf="paisDomControl.errors?.required">El campo es requerido</mat-error>
+                        <mat-error *ngIf="paisDomControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                        <mat-error *ngIf="paisDomControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+
+                <div *ngIf="filtrar_acentos(paisDomSelected.toString().toLowerCase().trim()) == 'mexico'">
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Estado" matInput [formControl]="edoDomControl" [matAutocomplete]="completeEstadoDom" id="estadoDomModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeEstadoDom="matAutocomplete" [displayWith]="EdoDisplay" (optionSelected)="onSelectionChanged($event, 'estadoDomModel')">
+                                <mat-option *ngFor="let option of edoDomFiltred | async; trackBy:trackByIdEstado" [value]="option">
+                                    {{option.entidad}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="edoDomControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="edoDomControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="edoNacControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Municipio" matInput [formControl]="muniDomControl" [matAutocomplete]="completeMunicipioDom" id="municipioDomModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeMunicipioDom="matAutocomplete" [displayWith]="MuniDisplay" (optionSelected)="onSelectionChanged($event, 'municipioDomModel')">
+                                <mat-option *ngFor="let option of muniDomFiltred | async; trackBy:trackByIdMunicipio" [value]="option">
+                                    {{option.municipio}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="muniDomControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="muniDomControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="muniDomControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Localidad" matInput [formControl]="localidadDomControl" [matAutocomplete]="completeLocalidadDom" id="localidadDomModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeLocalidadDom="matAutocomplete" [displayWith]="LocalidadDisplay" (optionSelected)="onSelectionChanged($event, 'localidadDomModel')">
+                                <mat-option *ngFor="let option of localDomFiltred | async" [value]="option">
+                                    {{option.localidad}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="localidadDomControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="localidadDomControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="localidadDomControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Código Postal" matInput [formControl]="cpDomControl" [matAutocomplete]="completeCp" id="cpDomModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeCp="matAutocomplete" [displayWith]="CpDisplay" (optionSelected)="onSelectionChanged($event, 'cpDomModel')">
+                                <mat-option *ngFor="let option of cpDomFiltred | async" [value]="option">
+                                    {{option.cp}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="cpDomControl.errors?.maxlength">Se excedió el límite de 5 caracteres</mat-error>
+                            <mat-error *ngIf="cpDomControl.errors?.pattern">Ingrese un CP valido</mat-error>
+                            <mat-error *ngIf="cpDomControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="cpDomControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="2" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Colonia" matInput [formControl]="coloniaDomControl" [matAutocomplete]="completeColoniaDom" id="coloniaDomModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeColoniaDom="matAutocomplete" [displayWith]="ColoniaDomDisplay" (optionSelected)="onSelectionChanged($event, 'coloniaDomModel')">
+                                <mat-option *ngFor="let option of coloniaDomFiltred | async; trackBy:trackByIdColonia" [value]="option">
+                                    {{option.colonia}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="coloniaDomControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="coloniaDomControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="coloniaDomControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+
+
+
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Calle" matInput [formControl]="calleDomControl" [matAutocomplete]="completeCalleDom" id="calleDomModel" on-focusout="focusOutFunction($event)" (keyup.enter)="chooseFirstOption($event)" (keydown.tab)="chooseFirstOption($event)"
+                                autocomplete="off">
+                            <mat-autocomplete #completeCalleDom="matAutocomplete" [displayWith]="CalleDomDisplay" (optionSelected)="onSelectionChanged($event, 'calleDomModel')">
+                                <cdk-virtual-scroll-viewport #viewPortOne itemSize="48" style="height: 240px" minBufferPx="96" maxBufferPx="144">
+                                    <mat-option *ngIf="isLoading" class="is-loading">
+                                        <mat-spinner diameter="50"></mat-spinner>
+                                    </mat-option>
+                                    <ng-container *ngIf="!isLoading">
+                                        <mat-option *ngFor="let option of calleDomFiltred | async | slice:0:100" [value]="option">
+                                            {{option.vialidad}}
+                                        </mat-option>
+                                    </ng-container>
+                                </cdk-virtual-scroll-viewport>
+                            </mat-autocomplete>
+
+                            <mat-error *ngIf="calleDomControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="calleDomControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="calleDomControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input formControlName="entreCalle1" matInput placeholder="Entre Calle 1" autocomplete="off">
+                            <mat-error *ngIf="hasError('entreCalle1', 'maxlength')">Se excedió el límite de caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput formControlName="entreCalle2" placeholder="Entre Calle 2" autocomplete="off">
+                            <mat-error *ngIf="hasError('entreCalle2', 'maxlength')">Se excedio el número de caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input formControlName="numExtDomicilio" matInput placeholder="*Número Exterior" autocomplete="off">
+                            <mat-error *ngIf="hasError('numExtDomicilio', 'required')">El campo es requerido </mat-error>
+                            <mat-error *ngIf="hasError('numExtDomicilio', 'maxlength')">Se excedió el límite de caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput formControlName="numIntDomicilio" placeholder="Número Interior" autocomplete="off">
+                            <mat-error *ngIf="hasError('numIntDomicilio', 'maxlength')">Se excedio el número de caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                </div>
+            </mat-grid-list>
+
+        </mat-card>
+        <br>
+
+        <mat-card>
+            <mat-grid-list cols="4" rowHeight="60px" rowWidht="20px">
+
+                <mat-grid-tile [colspan]="4" [rowspan]="1">
+                    <div class="alert alert-primary" role="alert">
+                        Ubique en el mapa su domicilio y en el Street View su fachada.
+                    </div>
+                </mat-grid-tile>
+
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput formControlName="latitud" placeholder="Latitud" autocomplete="off">
+                        <mat-error *ngIf="hasError('latitud', 'pattern')">Número no valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput formControlName="longitud" placeholder="Longitud" autocomplete="off">
+                        <mat-error *ngIf="hasError('longitud', 'pattern')">Número no valido</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="2" [rowspan]="1">
+                    <button mat-stroked-button color="primary" style="margin-right: 20px;float:right; margin-bottom: 20px;" class="button" [disabled]="(!RegistroUsuario.value.latitud || !RegistroUsuario.value.longitud)" (click)="streetViewSend(RegistroUsuario.value.latitud,RegistroUsuario.value.longitud)"
+                        id="sendMap" autocomplete="off">Buscar por lat - long</button>&nbsp;
+                    <button mat-stroked-button color="primary" style="margin-right: 20px;float:right; margin-bottom: 20px;" class="button" [disabled]="edoDomControl.invalid || muniDomControl.invalid || localidadDomControl.invalid || coloniaDomControl.invalid || calleDomControl.invalid"
+                        (click)="geocodeAddress(RegistroUsuario.value)">Buscar Domicilio</button>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="4" [rowspan]="6">
+                    <div id="map">
+                    </div>
+                    <div id="pano">
+                        <mat-spinner style="margin-left: -61px;margin-top: 112px;float: left;"></mat-spinner>
+                    </div>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="3" [rowspan]="1">
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <button mat-flat-button color="primary" style="margin-top: 20px;" class="button" type="submit" id="saveUser" (click)="registroUsuario(RegistroUsuario.value)">Guardar</button>&nbsp;
+                    <div *ngIf="onDialog==1">
+                        <button mat-stroked-button (click)="closeDialog()" style="margin-top: 20px;" class="boton-gray">Cancelar</button>&nbsp;
+                    </div>
+                    <div *ngIf="onDialog==0">
+                        <button mat-stroked-button color="primary" style="margin-top: 20px;" (click)="omitir()">Omitir</button>&nbsp;
+                    </div>
+
+
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card>
+
+        <br>
+
+        <mat-card>
+            &nbsp;&nbsp;
+            <h2>Anexos</h2>
+            <div class="example-container mat-elevation-z0" #TABLE>
+                <table mat-table #table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="texto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                        <td mat-cell *matCellDef="let row"> {{row.texto}}
+                            <a class="toltipExample">
+                                <i style="font-size: 13px;color: #0066ff;" class="material-icons">help_outline</i>
+                                <p>Ejemplo de documento:<br><br>
+                                    <img style="max-width: 280px;" src="http://admiweb.col.gob.mx/archivos_prensa/banco_img/file_5ae341d320420_curp_ejemplo.jpg" alt="curp">
+                                </p>
+                            </a>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-heade> Descripción </th>
+                        <td mat-cell *matCellDef="let row"> {{row.descripcion}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-heade> Acciones </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-button-toggle-group name="acciones">
+                                <mat-button-toggle matTooltip="Anexar documento" style="background: #fdb100;color:white;" (click)="uploadDocs('Agregar',row)">Documento pendiente<i style="font-size: 20px;color:white;" class="material-icons">attach_file</i></mat-button-toggle>
+                                <mat-button-toggle matTooltip="Eliminar documento" style="background: #e04236;color:white;"><i style="font-size: 20px; color:white;" class="material-icons">delete</i></mat-button-toggle>
+                            </mat-button-toggle-group>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                    </tr>
+                </table>
+            </div>
+        </mat-card>
+    </mat-list>
+</form> 

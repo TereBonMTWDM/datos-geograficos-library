@@ -1,0 +1,27 @@
+<dgtit-transparencia-footer></dgtit-transparencia-footer>
+<footer>
+    <div class="gto-container">
+        <div class="igualdad-img-container">
+            <a href="https://www.guanajuato.gob.mx/igualdad-laboral.php" target="_blank" rel="noopener" title="Política de Igualdad Laboral">
+                <img src="https://www.guanajuato.gob.mx/imagesD/logo-gl.svg" alt="logo-igualdad-laboral">
+            </a>
+        </div>
+        <div class="secretaria-title" [title]="footerData?.secretaria">
+            {{footerData?.secretaria}}
+        </div>
+        <div class="address" [title]="footerData?.direccion">
+            {{footerData?.direccion}}<br> {{footerData?.CP}}<br>{{footerData?.telefono}}
+        </div>
+        <div class="social">
+            <a [href]="red.link" target="_blank" rel="noopener noreferrer" *ngFor="let red of footerData?.redes" [title]="red.nombre">
+                <i _ngcontent-vtq-c8="" [class]="'fab fa-'+ red.nombre" [title]="red.nombre"></i>
+            </a>
+        </div>
+        <div class="derechos" [title]=" footerData?.year + ' ' + footerData?.secretaria">
+            © {{footerData?.year}} Gobierno del Estado de Guanajuato, Derechos Reservados.
+            <div>
+                <a title="aviso legal" rel="noopener noreferrer" target="_blank" href="https://www.guanajuato.gob.mx/aviso-legal.php">Aviso legal</a>
+            </div>
+        </div>
+    </div>
+</footer>

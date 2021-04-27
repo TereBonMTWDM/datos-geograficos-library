@@ -1,0 +1,505 @@
+<div class="row" >
+    <div class="col-md-12">
+       
+        
+            <mat-card>
+                <mat-list-item>Datos de Domicilio</mat-list-item>
+                
+                <mat-grid-list [cols]="breakpointA" rowHeight="80px" (window:resize)="onResize($event)">
+            
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input disabled matInput placeholder="País" autocomplete="off" value="MÉXICO">
+                        </mat-form-field>
+                    </mat-grid-tile> 
+    
+                
+    
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input disabled matInput placeholder="Estado" autocomplete="off" value="GUANAJUATO">
+                        </mat-form-field>
+                    </mat-grid-tile>
+    
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input  #cpfield type="text" matInput placeholder="Código Postal" autocomplete="off" [value]="CP"  
+                                [formControl]="cpControl" dgtitGeoAppSoloNumeros
+                                min="36000" max="38999"
+                            (change)="onChange($event, 'CP')" (keyup)="onKey($event)">
+                            <mat-spinner matSuffix [diameter]="20" [mode]="indeterminate" color="accent" *ngIf="cpControl.status === 'PENDING'"
+                        ></mat-spinner>
+
+                            <mat-error *ngIf="cpControl.errors?.required">El campo es requerido</mat-error>
+                            <!-- <mat-error *ngIf="cpControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{municipioControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error> -->
+                            <mat-error *ngIf="cpControl.hasError('noExisteCP')">
+                                Código Postal no existe
+                                <!-- <strong>'{{cpControl.errors.existeCP}}'</strong> -->
+                            </mat-error>
+                            <mat-error *ngIf="cpControl.errors?.min">Debe capturar un Código Postal del Estado de Guanajuato</mat-error>
+                            <mat-error *ngIf="cpControl.errors?.max">Debe capturar un Código Postal del Estado de Guanajuato</mat-error>
+                            <mat-error *ngIf="cpControl.errors?.minlength">La cantidad mínima de números es 5</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    
+                </mat-grid-list>
+
+    
+                <mat-grid-list [cols]="breakpointB" rowHeight="80px" (window:resize)="onResize($event)">
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Municipio" aria-label="Number" matInput 
+                                [formControl]="municipioControl" [matAutocomplete]="autocompleteMunicipio" id="municipioId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="municipioSelected">
+                            <mat-autocomplete autoActiveFirstOption #autocompleteMunicipio="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'municipioId')">
+                              <mat-option *ngFor="let option of municipioFiltred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="municipioControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="municipioControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{municipioControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                          </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input #localidadfield type="text" placeholder="*Localidad" aria-label="Number" matInput 
+                                [formControl]="localidadControl" [matAutocomplete]="autocompleteLocalidad" id="localidadId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="localidadSelected">
+                            <mat-autocomplete autoActiveFirstOption #autocompleteLocalidad="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'localidadId')">
+                              <mat-option *ngFor="let option of localidadFiltred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="localidadControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="localidadControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{localidadControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list [cols]="breakpointC" rowHeight="80px" (window:resize)="onResize($event)">
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput placeholder="Tipo de Zona" autocomplete="off" [value]="zona" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile *ngIf="!otraColonia" [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Colonia" aria-label="Number" matInput 
+                                [formControl]="coloniaControl" [matAutocomplete]="autocompleteColonia" id="coloniaId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="coloniaSelected">
+                            <mat-autocomplete autoActiveFirstOption #autocompleteColonia="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'coloniaId')">
+                              <mat-option *ngFor="let option of coloniaFiltred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="coloniaControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="coloniaControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="coloniaControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            <mat-error *ngIf="coloniaControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{coloniaControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-checkbox id="noColonia" (change)="onCheck($event)" class="example-margin">No encontré mi colonia</mat-checkbox>
+                    </mat-grid-tile>
+                    <mat-grid-tile *ngIf="otraColonia" [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input #coloniafield [formControl]="otraColoniaControl" matInput placeholder="---Capture la otra colonia---" autocomplete="off" [value]="" 
+                                (change)="onChange($event, 'OtraColonia')">
+                            <mat-error *ngIf="otraColoniaControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="otraColoniaControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+               
+
+                <mat-grid-list [cols]="breakpointD" rowHeight="80px" (window:resize)="onResize($event)">
+                    <mat-grid-tile *ngIf="!otraCalle" [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Calle" aria-label="Number" matInput 
+                                [formControl]="calleControl" [matAutocomplete]="autocompleteCalle" id="calleId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="calleSelected">
+                                <mat-spinner *ngIf="isLoading" diameter="15"></mat-spinner>
+                            <mat-autocomplete autoActiveFirstOption #autocompleteCalle="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'calleId')">
+                                <mat-option *ngFor="let option of calleFiltred | async | slice:0:10" [value]="option.nombre">
+                                    {{option.nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="calleControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="calleControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="calleControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            <mat-error *ngIf="calleControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{calleControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-checkbox id="noCalle" (change)="onCheck($event)" class="example-margin">No encontré mi calle</mat-checkbox>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile *ngIf="otraCalle" [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input #callefield matInput placeholder="---Capture la otra calle---" autocomplete="off" [value]="" 
+                                (change)="onChange($event, 'OtraCalle')" [formControl]="otraCalleControl">
+                            <mat-error *ngIf="otraCalleControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="otraCalleControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="otraCalleControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput placeholder="Número Exterior" autocomplete="off" [value]="NumExt" 
+                                (change)="onChange($event, 'NumExt')" [formControl]="numExtControl">
+                            <mat-error *ngIf="numExtControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="numExtControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="numExtControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput placeholder="Número Interior" autocomplete="off" [value]="NumInt" 
+                                (change)="onChange($event, 'NumInt')" [formControl]="numIntControl">
+                            <mat-error *ngIf="numIntControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="numIntControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list [cols]="breakpointE" rowHeight="80px" (window:resize)="onResize($event)">
+                    <mat-grid-tile  *ngIf="!entreOtraCalle" [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Entre Calle" aria-label="Number" matInput 
+                                [formControl]="EntreCalle1Control" [matAutocomplete]="autocompleteEntreCalle1" id="entreCalle1Id" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="entreCalle1Selected">
+                                <mat-spinner *ngIf="isLoading" diameter="15"></mat-spinner>
+                            <mat-autocomplete autoActiveFirstOption #autocompleteEntreCalle1="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'entreCalle1Id')">
+                            <mat-option *ngFor="let option of entreCalle1Filtred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                            </mat-option>
+                            </mat-autocomplete>
+                            
+                            <mat-error *ngIf="EntreCalle1Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="EntreCalle1Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            <mat-error *ngIf="EntreCalle1Control.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{EntreCalle1Control.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-checkbox id="noEntreCalle" (change)="onCheck($event)" class="example-margin">No encontré la calle</mat-checkbox>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile *ngIf="entreOtraCalle" [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input #entrecalle1field type="text"
+                                matInput placeholder="---Capture entre otra calle---" autocomplete="off" [value]="" 
+                                (change)="onChange($event, 'EntreOtraCalle')" [formControl]="EntreOtraCalle1Control">
+                            <mat-error *ngIf="EntreOtraCalle1Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="EntreOtraCalle1Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                       
+                    <mat-grid-tile  *ngIf="!entreOtraCalle2"  [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Y Calle" aria-label="Number" matInput 
+                                [formControl]="EntreCalle2Control" [matAutocomplete]="autocompleteEntreCalle2" id="entreCalle2Id" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="entreCalle2Selected">
+                                <mat-spinner *ngIf="isLoading" diameter="15"></mat-spinner>
+                            <mat-autocomplete autoActiveFirstOption #autocompleteEntreCalle2="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'entreCalle2Id')">
+                            <mat-option *ngFor="let option of entreCalle2Filtred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                            </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="EntreCalle2Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="EntreCalle2Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            <mat-error *ngIf="EntreCalle2Control.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{EntreCalle2Control.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-checkbox id="noEntreOtraCalle" (change)="onCheck($event)" class="example-margin">No encontré la calle</mat-checkbox>
+                    </mat-grid-tile>
+                
+                    <mat-grid-tile *ngIf="entreOtraCalle2" [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input #entrecalle2field type="text" matInput placeholder="---Capture entre otra calle---" autocomplete="off" [value]="" 
+                                (change)="onChange($event, 'EntreOtraCalle2')" [formControl]="EntreOtraCalle2Control">
+                            <mat-error *ngIf="EntreOtraCalle2Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="EntreOtraCalle2Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+            
+                </mat-grid-list>
+
+
+                <!-- <br><br><br><br><br>
+
+                <hr>
+
+                <mat-grid-list cols="3" rowHeight="80px" >
+            
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input disabled matInput placeholder="País" autocomplete="off" value="MÉXICO">
+                        </mat-form-field>
+                    </mat-grid-tile> 
+    
+                
+    
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input disabled matInput placeholder="Estado" autocomplete="off" value="GUANAJUATO">
+                        </mat-form-field>
+                    </mat-grid-tile>
+    
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input #cpfield type="text" matInput placeholder="Código Postal" autocomplete="off" [value]="CP"  
+                                [formControl]="cpControl" dgtitGeoAppSoloNumeros
+                                min="36000" max="38999"
+                            (change)="onChange($event, 'CP')" (keyup)="onKey($event)">
+                            <mat-error *ngIf="cpControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="cpControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{municipioControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                            <mat-error *ngIf="cpControl.errors?.min">Debe capturar un Código Postal del Estado de Guanajuato</mat-error>
+                            <mat-error *ngIf="cpControl.errors?.max">Debe capturar un Código Postal del Estado de Guanajuato</mat-error>
+                            <mat-error *ngIf="cpControl.errors?.minlength">La cantidad mínima de números es 5</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    
+                </mat-grid-list>
+
+
+                <mat-grid-list cols="5" rowHeight="80px" >
+                    <mat-grid-tile [colspan]="2" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Municipio" aria-label="Number" matInput 
+                                [formControl]="municipioControl" [matAutocomplete]="autocompleteMunicipio" id="municipioId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="municipioSelected">
+                            <mat-autocomplete autoActiveFirstOption #autocompleteMunicipio="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'municipioId')">
+                              <mat-option *ngFor="let option of municipioFiltred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="municipioControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="municipioControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{municipioControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                          </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="3" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input #localidadfield type="text" placeholder="Localidad" aria-label="Number" matInput 
+                                [formControl]="localidadControl" [matAutocomplete]="autocompleteLocalidad" id="localidadId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="localidadSelected">
+                            <mat-autocomplete autoActiveFirstOption #autocompleteLocalidad="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'localidadId')">
+                              <mat-option *ngFor="let option of localidadFiltred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="localidadControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{localidadControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+
+                <mat-grid-list cols="4" rowHeight="80px">
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput placeholder="Tipo de Zona" autocomplete="off" [value]="zona" disabled>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile *ngIf="!otraColonia" [colspan]="2" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Colonia" aria-label="Number" matInput 
+                                [formControl]="coloniaControl" [matAutocomplete]="autocompleteColonia" id="coloniaId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="coloniaSelected">
+                            <mat-autocomplete autoActiveFirstOption #autocompleteColonia="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'coloniaId')">
+                              <mat-option *ngFor="let option of coloniaFiltred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                              </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="coloniaControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="coloniaControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="coloniaControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            <mat-error *ngIf="coloniaControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{coloniaControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-checkbox id="noColonia" (change)="onCheck($event)" class="example-margin">No encontré mi colonia</mat-checkbox>
+                    </mat-grid-tile>
+                        <mat-grid-tile *ngIf="otraColonia" [colspan]="2" [rowspan]="1">
+                            <mat-form-field>
+                                <input #coloniafield matInput placeholder="---Capture la otra colonia---" autocomplete="off" [value]="" 
+                                    (change)="onChange($event, 'OtraColonia')">
+                            </mat-form-field>
+                        </mat-grid-tile>
+                </mat-grid-list>
+
+
+                <mat-grid-list cols="5" rowHeight="80px">
+                    <mat-grid-tile *ngIf="!otraCalle" [colspan]="2" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="*Calle" aria-label="Number" matInput 
+                                [formControl]="calleControl" [matAutocomplete]="autocompleteCalle" id="calleId" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="calleSelected">
+                                <mat-spinner *ngIf="isLoading" diameter="15"></mat-spinner>
+                            <mat-autocomplete autoActiveFirstOption #autocompleteCalle="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'calleId')">
+                                <mat-option *ngFor="let option of calleFiltred | async | slice:0:10" [value]="option.nombre">
+                                    {{option.nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="calleControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="calleControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="calleControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            <mat-error *ngIf="calleControl.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{calleControl.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-checkbox id="noCalle" (change)="onCheck($event)" class="example-margin">No encontré mi calle</mat-checkbox>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile *ngIf="otraCalle" [colspan]="2" [rowspan]="1">
+                        <mat-form-field>
+                            <input #callefield matInput placeholder="---Capture la otra calle---" autocomplete="off" [value]="" 
+                                (change)="onChange($event, 'OtraCalle')" [formControl]="otraCalleControl">
+                            <mat-error *ngIf="otraCalleControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="otraCalleControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="otraCalleControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+
+
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput placeholder="Número Exterior" autocomplete="off" [value]="NumExt" 
+                                (change)="onChange($event, 'NumExt')" [formControl]="numExtControl">
+                            <mat-error *ngIf="numExtControl.errors?.required">El campo es requerido</mat-error>
+                            <mat-error *ngIf="numExtControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="numExtControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input matInput placeholder="Número Interior" autocomplete="off" [value]="NumInt" 
+                                (change)="onChange($event, 'NumInt')" [formControl]="numIntControl">
+                            <mat-error *ngIf="numIntControl.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="numIntControl.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+
+                <mat-grid-list cols="4" rowHeight="80px">
+                    <mat-grid-tile  *ngIf="!entreOtraCalle" [colspan]="1" [rowspan]="1">
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Entre Calle" aria-label="Number" matInput 
+                                [formControl]="EntreCalle1Control" [matAutocomplete]="autocompleteEntreCalle1" id="entreCalle1Id" (keydown.tab)="chooseFirstOption($event)" 
+                                [value]="entreCalle1Selected">
+                                <mat-spinner *ngIf="isLoading" diameter="15"></mat-spinner>
+                            <mat-autocomplete autoActiveFirstOption #autocompleteEntreCalle1="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'entreCalle1Id')">
+                            <mat-option *ngFor="let option of entreCalle1Filtred | async | slice:0:10" [value]="option.nombre">
+                                {{option.nombre}}
+                            </mat-option>
+                            </mat-autocomplete>
+                            <mat-error *ngIf="EntreCalle1Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="EntreCalle1Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            <mat-error *ngIf="EntreCalle1Control.hasError('forbiddenNames')">
+                                Debe seleccionar una opción de las sugeridas.
+                                <strong>'{{EntreCalle1Control.errors.forbiddenNames.value}}'</strong> no está permitido.
+                            </mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" [rowspan]="1">
+                        <mat-checkbox id="noEntreCalle" (change)="onCheck($event)" class="example-margin">No encontré la calle</mat-checkbox>
+                    </mat-grid-tile>
+
+                    <mat-grid-tile *ngIf="entreOtraCalle" [colspan]="1" [rowspan]="1">
+                        <mat-form-field>
+                            <input #entrecalle1field type="text"
+                                matInput placeholder="---Capture entre otra calle---" autocomplete="off" [value]="" 
+                                (change)="onChange($event, 'EntreOtraCalle')" [formControl]="EntreOtraCalle1Control">
+                            <mat-error *ngIf="EntreOtraCalle1Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                            <mat-error *ngIf="EntreOtraCalle1Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                       
+
+                        <mat-grid-tile  *ngIf="!entreOtraCalle2"  [colspan]="1" [rowspan]="1">
+                            <mat-form-field class="example-full-width">
+                                <input type="text" placeholder="Y Calle" aria-label="Number" matInput 
+                                    [formControl]="EntreCalle2Control" [matAutocomplete]="autocompleteEntreCalle2" id="entreCalle2Id" (keydown.tab)="chooseFirstOption($event)" 
+                                    [value]="entreCalle2Selected">
+                                    <mat-spinner *ngIf="isLoading" diameter="15"></mat-spinner>
+                                <mat-autocomplete autoActiveFirstOption #autocompleteEntreCalle2="matAutocomplete" (optionSelected)="onSelectionChanged($event, 'entreCalle2Id')">
+                                <mat-option *ngFor="let option of entreCalle2Filtred | async | slice:0:10" [value]="option.nombre">
+                                    {{option.nombre}}
+                                </mat-option>
+                                </mat-autocomplete>
+
+                                <mat-error *ngIf="EntreCalle2Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                                <mat-error *ngIf="EntreCalle2Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                                <mat-error *ngIf="EntreCalle2Control.hasError('forbiddenNames')">
+                                    Debe seleccionar una opción de las sugeridas.
+                                    <strong>'{{EntreCalle2Control.errors.forbiddenNames.value}}'</strong> no está permitido.
+                                </mat-error>
+                            </mat-form-field>
+                        </mat-grid-tile>
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
+                            <mat-checkbox id="noEntreOtraCalle" (change)="onCheck($event)" class="example-margin">No encontré la calle</mat-checkbox>
+                        </mat-grid-tile>
+                    
+                        <mat-grid-tile *ngIf="entreOtraCalle2" [colspan]="1" [rowspan]="1">
+                            <mat-form-field>
+                                <input #entrecalle2field type="text" matInput placeholder="---Capture entre otra calle---" autocomplete="off" [value]="" 
+                                    (change)="onChange($event, 'EntreOtraCalle2')" [formControl]="EntreOtraCalle2Control">
+                                <mat-error *ngIf="EntreOtraCalle2Control.errors?.maxlength">Se excedió el límite de caracteres</mat-error>
+                                <mat-error *ngIf="EntreOtraCalle2Control.errors?.minlength">Se ingresaron muy pocos caracteres</mat-error>
+                            </mat-form-field>
+                        </mat-grid-tile>
+                    
+
+                </mat-grid-list> -->
+            
+                
+            </mat-card>
+    
+    </div>
+
+    <br>
+</div>

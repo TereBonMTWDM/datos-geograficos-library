@@ -1,0 +1,197 @@
+<form [formGroup]="formMenu" autocomplete="false">
+
+    <mat-toolbar color="primary">
+        <span>{{accionModal}} Menú</span>
+    </mat-toolbar>
+    <div class="example-container" style="margin-top: 25px; padding-left: 50px; padding-right: 50px;">
+        <mat-form-field>
+            <input matInput placeholder="Texto" formControlName="Texto" autocomplete="new-password">
+            <mat-hint align="end">Máximo 40 caracteres</mat-hint>
+            <mat-error *ngIf="hasError('Texto', 'required')">El campo es requerido </mat-error>
+            <mat-error *ngIf="hasError('Texto', 'maxlength')">Se excedió el límite de 40 caracteres</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Descripción" formControlName="Descripcion" autocomplete="new-password">
+            <mat-hint align="end">Máximo 100 caracteres</mat-hint>
+            <mat-error *ngIf="hasError('Descripcion', 'required')">El campo es requerido </mat-error>
+            <mat-error *ngIf="hasError('Descripcion', 'maxlength')">Se excedió el límite de 100 caracteres</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Href" formControlName="Href" autocomplete="new-password">
+            <mat-hint align="end"></mat-hint>
+            <mat-error *ngIf="hasError('Href', 'required')">El campo es requerido </mat-error>
+            <mat-error *ngIf="hasError('Href', 'maxlength')">Se excedió el límite de 250 caracteres</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label> Target </mat-label>
+            <mat-select formControlName="Target">
+                <mat-option value="_blank">_blank</mat-option>
+                <mat-option value="_self">_self</mat-option>
+            </mat-select>
+            <mat-error *ngIf="hasError('Target', 'required')">El campo es requerido </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label> Público </mat-label>
+            <mat-select formControlName="Publico">
+                <mat-option value="1">Si</mat-option>
+                <mat-option value="0">No</mat-option>
+            </mat-select>
+            <mat-error *ngIf="hasError('Publico', 'required')">El campo es requerido </mat-error>
+        </mat-form-field>
+
+        <!-- <mat-form-field>
+            <mat-label> Externo </mat-label>
+            <mat-select formControlName="Externo">
+                <mat-option value="1">Si</mat-option>
+                <mat-option value="0">No</mat-option>
+            </mat-select>
+            <mat-error *ngIf="hasError('Descripcion', 'required')">El campo es requerido </mat-error>
+        </mat-form-field> -->
+
+        <mat-form-field>
+            <input matInput type="number" placeholder="Posición" formControlName="Posicion" min="1" autocomplete="new-password">
+            <mat-hint align="end"></mat-hint>
+            <mat-error *ngIf="hasError('Posicion', 'required')">El campo es requerido </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label> Menú Padre </mat-label>
+            <mat-select formControlName="Padre">
+                <mat-option value=null>Raíz</mat-option>
+                <mat-option *ngFor="let menusPadre of datosMenu" [value]="menusPadre.menuID">
+                    {{menusPadre.texto}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+            <mat-step>
+                <form>
+                    <ng-template matStepLabel>Listado de roles</ng-template>
+                    <br><br>
+                    <h5>Roles seleccionados</h5>
+                    <button mat-fab class="addInTable" matTooltip="Agregar Rol" matStepperNext mat-mini-fab color="primary"><i class="material-icons">add</i></button>
+                    <div class="example-container mat-elevation-z8" #TABLE>
+                        <table mat-table #table [dataSource]="dataSource" matSort>
+                            <!-- Progress Column -->
+                            <ng-container matColumnDef="Nombre">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
+                                <td mat-cell *matCellDef="let row"> {{row?.descripcion}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Inicio">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Inicio </th>
+                                <td mat-cell *matCellDef="let row"> {{row?.inicio.substr(0,10)| date:'dd/MM/yyyy'}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Final">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Final </th>
+                                <td mat-cell *matCellDef="let row"> {{row?.final.substr(0,10)| date:'dd/MM/yyyy'}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef> Acción </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button mat-icon-button matTooltip="Borrar" class="iconbutton" color="primary" *ngIf="accionModal=='Actualizar'" (click)="deleteRolMenuAdd(row)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button mat-icon-button matTooltip="Borrar" class="iconbutton" color="primary" *ngIf="accionModal=='Agregar'" (click)="deleteRolMenuAdd(row)">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </tr>
+                        </table>
+                        <mat-paginator [pageSizeOptions]="[10]"></mat-paginator>
+                    </div>
+                    <br><br><br>
+                </form>
+                <div class="row justify-content-center">
+                    <div mat-dialog-actions>
+                        <!--  <button mat-stroked-button color="primary" style="margin-right: 20px" class="button" type="submit" id="saveUser" [disabled]="!formMenu.valid">Guardar</button> -->
+                        <button mat-stroked-button class="boton-secondary" (click)="guardarMenu(formMenu.value)" id="saveUser" [disabled]="!formMenu.valid">Guardar</button>
+                        <button mat-stroked-button (click)="closeDialog()" class="boton-gray">Cancelar</button>
+                    </div>
+                </div>
+                <br><br>
+            </mat-step>
+            <mat-step>
+                <br>
+                <ng-template matStepLabel>Asignar Nuevo Rol </ng-template>
+                <mat-grid-list cols="4" rowHeight="70">
+                    <mat-grid-tile>
+                        <mat-form-field><input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <form>
+                    <table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+                        <!-- Checkbox Column -->
+                        <ng-container matColumnDef="select">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="descripcion">
+                            <th mat-header-cell *matHeaderCellDef> Nombre</th>
+                            <td mat-cell *matCellDef="let element"> {{element?.descripcion}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="selection.toggle(row)">
+                        </tr>
+                    </table>
+                    <br><br>
+                </form>
+                <mat-grid-list *ngIf="this.datosRoles?.length<= 0" cols="4" rowHeight="100">
+                    <mat-card style="margin-top: -37px; border-radius: 0px;" class="mat-elevation-z3">
+                        <div align="center">
+                            Todos los roles ya fueron asignados a este menú.
+                        </div>
+                    </mat-card>
+                </mat-grid-list>
+                <!-- formulario de fechas -->
+                <form [formGroup]="formFechaRoles" autocomplete="false">
+                    <mat-grid-list cols="2" rowHeight="60px" rowWidht="30px">
+
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
+                            <mat-form-field>
+                                <input matInput formControlName="Inicio" [min]="minDate" placeholder="*Fecha de Inicio" [disabled]="this.datosRoles?.length<= 0" [matDatepicker]="picker" (focus)="picker.open()" readonly #inicioF (dateChange)="orgValueChange(formFechaRoles.value)">
+                                <mat-error *ngIf="hasErrorfechas('Inicio', 'required')">El campo es requerido </mat-error>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            </mat-form-field>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-grid-tile>&nbsp;&nbsp;
+
+                        <mat-grid-tile [colspan]="1" [rowspan]="1">
+                            <mat-form-field>
+                                <input matInput formControlName="Final" [min]="minDate" placeholder="*Fecha Final" [disabled]="this.datosRoles?.length<= 0" [matDatepicker]="picker2" (focus)="picker2.open()" readonly #finalF (dateChange)="orgValueChange(formFechaRoles.value)">
+                                <mat-error *ngIf="hasErrorfechas('Final', 'required')">El campo es requerido </mat-error>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            </mat-form-field>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </form>
+                <div align="center">
+                    <p *ngIf="fechasOk==true" style="color: red;margin-top:-17px;font-size: 11px;">*Verifica que la fecha final sea menor a la fecha inicial</p>
+                    <button mat-raised-button color="primary" [disabled]="(!formFechaRoles.valid) || (fechasOk==true) ||(this.datosRoles?.length<= 0)" matStepperPrevious (click)="guardarListado(formFechaRoles.value)">Guardar
+                        Selección</button>&nbsp;&nbsp;
+                    <button mat-button matStepperPrevious>Cancelar</button>
+                </div>
+            </mat-step>
+            <br><br><br>
+        </mat-horizontal-stepper>
+    </div>
+</form>

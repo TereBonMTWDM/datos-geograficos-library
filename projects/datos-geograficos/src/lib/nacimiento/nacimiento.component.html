@@ -1,0 +1,29 @@
+<div>
+    <mat-card>
+        <mat-list-item>Datos de Nacimiento</mat-list-item>
+        <mat-grid-list cols="3">
+
+            <dgtit-geo-entidad entidad="Pais" [inputdata]="Pais" 
+                require="true" min="3" max="70" textoValido="true"
+                (onSelectCombo)="onDatosGeograficos($event, 'Pais')"
+            ></dgtit-geo-entidad>
+
+            <div *ngIf="show">
+                <dgtit-geo-entidad entidad="Estado" [inputdata]="Estado" 
+                    require="true" min="3" max="50" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'Estado')"
+                ></dgtit-geo-entidad>
+
+                <dgtit-geo-entidad id="municipio" entidad="Municipio" [inputdata]="Municipio" [idEstado]="estadoSelectedId"
+                    require="true" min="3" max="100" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'Municipio')"
+                ></dgtit-geo-entidad>
+
+                <dgtit-geo-entidad entidad="Localidad" [inputdata]="Localidad" [idEstado]="estadoSelectedId" [idMunicipio]="municipioSelectedId"
+                    require="false" min="3" max="100" textoValido="true"
+                    (onSelectCombo)="onDatosGeograficos($event, 'Localidad')"
+                ></dgtit-geo-entidad>
+            </div>
+        </mat-grid-list>
+    </mat-card>
+</div>

@@ -1,0 +1,61 @@
+<!--Inicia tabla-->
+<br>
+<h3 *ngIf="dataMenuActual?.texto">Listado de {{dataMenuActual?.texto}}</h3>
+<h3 *ngIf="!dataMenuActual?.texto">Listado de Roles</h3>
+<br><br>
+<!--
+<mat-grid-list cols="4" rowHeight="70">
+    <mat-grid-tile>
+        <mat-form-field><input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar en listado">
+        </mat-form-field>
+    </mat-grid-tile>
+</mat-grid-list>
+<mat-divider></mat-divider>
+-->
+
+
+
+<h5>Búsqueda del rol:</h5>
+<div class="filtros">
+    <form [formGroup]="searchFilter">
+        <mat-grid-list cols="5" rowHeight="60px" rowWidht="20px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="descripcion" placeholder="Nombre del Rol" [(ngModel)]="descripcion">
+                    <button mat-button *ngIf="descripcion" matSuffix mat-icon-button aria-label="Limpiar" (click)="descripcion=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <button mat-raised-button color="primary" type="submit" (click)="GetDataByFilter()">Aplicar filtro</button>
+
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <button mat-raised-button color="primary" (click)="QuitarFiltros()">Quitar Filtros</button>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <button mat-raised-button color="primary" (click)="ExportTOExcel()">Exportar a Excel</button>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+    </form>
+
+</div>
+<mat-divider>
+
+</mat-divider>
+<br><br><br>
+
+
+
+<div class="example-container mat-elevation-z8" #TABLE>
+    <app-rol-list [dataSource]="dataSource" (bandera)="GetRoles(0,0)"></app-rol-list>
+    <mat-paginator (page)="pageEvent = $event" [pageSizeOptions]="pageSizeOptions" [pageSize]="_tam" [length]="totalRows"></mat-paginator>
+</div>
+<div *ngIf="pageEvent">
+    <input type="hidden" id="pageSize" value="{{pageEvent.pageSize}}">
+</div>

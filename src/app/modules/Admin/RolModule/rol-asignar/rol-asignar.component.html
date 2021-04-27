@@ -1,0 +1,40 @@
+<div class="example-container mat-elevation-z8" style="margin-top: 25px; margin-bottom: 25px; padding-left: 50px; padding-right: 50px;padding-bottom: 50px;">
+    <br>
+    <h5>Roles disponibles para asignar:</h5>
+    <hr>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)" autocomplete="false">
+        <mat-selection-list #list (ngModelChange)="onNgModelChange($event)" [(ngModel)]="rolesSelected" name="rolesSelected" required>
+            <mat-list-option *ngFor="let item of roles" [value]="item">
+                {{item.descripcion}}
+            </mat-list-option>
+        </mat-selection-list>
+        <hr>
+
+        <div *ngIf="rolesSelected.length> 0">
+            <mat-grid-list cols="2" rowHeight="60px" rowWidht="40px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput #ref [matDatepicker]="pickerInicio" (focus)="pickerInicio.open()" [min]="minDate" readonly placeholder="Fecha Inicio (dd/mm/yyyy)" [(ngModel)]="inicio" name="inicio" required (dateChange)="orgValueChange(ref.value,ref2.value)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerInicio></mat-datepicker>
+                    </mat-form-field>&nbsp;&nbsp;
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field>
+                        <input matInput #ref2 [matDatepicker]="pickerFinal" (focus)="pickerFinal.open()" readonly [min]="minDate" placeholder="Fecha Final (dd/mm/yyyy)" [(ngModel)]="final" name="final" required (dateChange)="orgValueChange(ref.value,ref2.value)">
+                        <mat-datepicker-toggle matSuffix [for]="pickerFinal"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerFinal></mat-datepicker>
+                    </mat-form-field>
+                </mat-grid-tile>
+            </mat-grid-list>
+
+            <p *ngIf="fechasOk==true" style="color: red;margin-top:-17px;font-size: 11px;">*Verifica que la fecha final sea menor a la fecha inicial</p>
+            <div align="center">
+                <button [disabled]="!form.form.valid" type="submit" mat-stroked-button class="boton-secondary" matTooltip="guardar" title="guardar">Asignar</button>
+                <button (click)="onCancelar()" type="button" mat-stroked-button class="boton-gray" matTooltip="Cancelar" title="Cancelar">Cancelar</button>
+            </div>
+
+        </div>
+    </form>
+</div>

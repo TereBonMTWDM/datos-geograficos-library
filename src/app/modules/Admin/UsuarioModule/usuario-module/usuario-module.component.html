@@ -1,0 +1,108 @@
+<br>
+<h3>Listado de {{dataMenuActual?.texto}}</h3>
+<br><br>
+
+<h5>Filtros</h5>
+<div class="filtros">
+    <form [formGroup]="searchFilter">
+        <mat-grid-list cols="5" rowHeight="60px" rowWidht="20px">
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="apellido1" placeholder="Apellido 1" [(ngModel)]="apellido1">
+                    <button mat-button *ngIf="apellido1" matSuffix mat-icon-button aria-label="Limpiar" (click)="apellido1=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="apellido2" placeholder="Apellido 2" [(ngModel)]="apellido2">
+                    <button mat-button *ngIf="apellido2" matSuffix mat-icon-button aria-label="Limpiar" (click)="apellido2=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="nombre" placeholder="Nombre" [(ngModel)]="nombre">
+                    <button mat-button *ngIf="nombre" matSuffix mat-icon-button aria-label="Limpiar" (click)="nombre=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="curp" placeholder="CURP" [(ngModel)]="curp">
+                    <button mat-button *ngIf="curp" matSuffix mat-icon-button aria-label="Limpiar" (click)="curp=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <mat-select matNativeControl formControlName="sexo" [(ngModel)]="sexo" placeholder="Sexo">
+                        <mat-option value="1">Femenino</mat-option>
+                        <mat-option value="2">Masculino</mat-option>
+                    </mat-select>
+                    <button mat-button *ngIf="sexo" matSuffix mat-icon-button aria-label="Limpiar" (click)="sexo=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="rfc" placeholder="RFC" [(ngModel)]="rfc">
+                    <button mat-button *ngIf="rfc" matSuffix mat-icon-button aria-label="Limpiar" (click)="rfc=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="celular" placeholder="Celular" [(ngModel)]="celular">
+                    <button mat-button *ngIf="celular" matSuffix mat-icon-button aria-label="Limpiar" (click)="celular=''">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>&nbsp;
+            </mat-grid-tile>
+
+           
+
+
+
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <button mat-raised-button color="primary" type="submit" (click)="GetUsuariosByFilter()">Aplicar filtro</button>
+
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <button mat-raised-button color="primary" (click)="QuitarFiltros()">Quitar Filtros</button>
+            </mat-grid-tile>
+
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <button mat-raised-button color="primary" (click)="ExportTOExcel()">Exportar a Excel</button>
+            </mat-grid-tile>
+
+        </mat-grid-list>
+    </form>
+
+</div>
+
+<br><br><br>
+
+
+<div class="example-container mat-elevation-z8" #TABLE>
+    <app-usuario-list [dataSource]="dataSource" (bandera)="GetUsuarios(0,0)"></app-usuario-list>
+    <mat-paginator (page)="pageEvent = $event" [pageSizeOptions]="pageSizeOptions" [length]="totalRows"></mat-paginator>
+</div>
+<div *ngIf="pageEvent">
+    <input type="hidden" id="pageSize" value="{{pageEvent.pageSize}}">
+</div>

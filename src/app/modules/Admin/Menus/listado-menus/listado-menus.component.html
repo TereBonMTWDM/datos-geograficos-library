@@ -1,0 +1,96 @@
+<!--Inicia tabla-->
+<br>
+<h3 *ngIf="dataMenuActual?.texto">Listado de {{dataMenuActual?.texto}}</h3>
+<h3 *ngIf="!dataMenuActual?.texto">Listado de Menús</h3>
+<mat-card>
+    <h4>Filtros:</h4>
+    <div class="filtros">
+        <form [formGroup]="searchFilter">
+            <mat-grid-list cols="5" rowHeight="60px" rowWidht="20px">
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field class="example-form-field">
+                        <input matInput type="text" formControlName="texto" placeholder="Nombre" [(ngModel)]="valueName">
+                        <button mat-button *ngIf="valueName" matSuffix mat-icon-button aria-label="Limpiar" (click)="valueName=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>&nbsp;&nbsp;
+
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <mat-form-field class="example-form-field">
+                        <input matInput type="text" formControlName="descripcion" placeholder="Descripción" [(ngModel)]="valueDesc">
+                        <button mat-button *ngIf="valueDesc" matSuffix mat-icon-button aria-label="Limpiar" (click)="valueDesc=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <!-- <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <mat-form-field>
+                    <input matInput formControlName="roles" placeholder="Roles">
+                </mat-form-field>
+            </mat-grid-tile> -->
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <button mat-raised-button color="primary" type="submit" (click)="getDataByFilter()">Aplicar
+                        filtros</button>
+
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <button mat-raised-button color="primary" (click)="QuitarFiltros()">Quitar Filtros</button>
+                </mat-grid-tile>
+
+                <mat-grid-tile [colspan]="1" [rowspan]="1">
+                    <button mat-raised-button color="primary" (click)="ExportTOExcel()">Exportar a Excel</button>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+        </form>
+
+    </div>
+</mat-card>
+<br>
+
+<!-- tabla de roles seleccionados -->
+<div class="example-container mat-elevation-z8" #TABLE>
+    <table mat-table #table [dataSource]="dataSource" matSort>
+        <!-- Progress Column -->
+        <ng-container matColumnDef="texto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+            <td mat-cell *matCellDef="let row"> {{row.texto}} </td>
+        </ng-container>
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-heade> Descripción </th>
+            <td mat-cell *matCellDef="let row"> {{row.descripcion}} </td>
+        </ng-container>
+        <ng-container matColumnDef="roles">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Roles </th>
+            <td mat-cell *matCellDef="let row"> {{row.roles}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones <br> <button mat-fab class="flotante" matTooltip="Agregar menú" (click)="openDialog('Agregar',{})" mat-flat-button color="primary"><i
+                        class="material-icons">add</i></button> </th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button matTooltip="Editar" class="iconbutton" color="primary" (click)="openDialog('Actualizar',row)">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button mat-icon-button matTooltip="Borrar menú" *ngIf="(row.roles)" disabled class="iconbutton" color="primary">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button mat-icon-button matTooltip="Borrar menú" *ngIf="(!row.roles)" class="iconbutton" color="primary" (click)="openDialogAccionUrs('Eliminar',row)">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+    </table>
+    <mat-paginator (page)="pageEvent = $event" [pageSizeOptions]="pageSizeOptions" [pageSize]="_tam" [length]="totalRows"></mat-paginator>
+    <!-- <mat-paginator [pageSizeOptions]="[10,20,30]" [length]="totalrows" #pageSice (page)="pageEvent = $event"></mat-paginator> -->
+</div>
+<div *ngIf="pageEvent">
+    <!-- <div>Page size: {{pageEvent.pageSize}}</div> -->
+    <input type="hidden" id="pageSize" value="{{pageEvent.pageSize}}">
+</div>

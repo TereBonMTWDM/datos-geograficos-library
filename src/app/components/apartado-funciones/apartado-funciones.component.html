@@ -1,0 +1,24 @@
+<ul>
+    <li *ngFor="let item of contactoItems">
+        <ng-container *ngIf=" item.link && item.link != ''; else elementWithFunction">
+            <a [title]="item.label" [href]="item.link " class="white-text">
+                <i class="material-icons">{{item.ico}}</i>
+                {{item.content}}
+            </a>
+        </ng-container>
+        <ng-template #elementWithFunction>
+            <a [title]="item.label" class="white-text" (item.event)="item.function">
+                <i class="material-icons">{{item.ico}}</i>
+                {{item.content}}
+            </a>
+        </ng-template>
+
+    </li>
+    <!-- <li>
+        <a title=" opciones de Accesibilidad"  class="white-text accesibilidad" (click)="toogleAccessibilityOptionsMenu()">
+            <i class="material-icons">accessible</i>
+            ACCESIBILIDAD
+        </a>
+    </li> -->
+</ul>
+<!-- <dgtit-accesibilidad (closePanel)="onClosePanel($event)" [isShowed]="showAccessibility"></dgtit-accesibilidad> -->

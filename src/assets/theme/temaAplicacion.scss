@@ -1,0 +1,12 @@
+@import '~@angular/material/theming';
+@import 'palette';
+
+@include mat-core();
+
+$dgtit-theme-primary: mat-palette($md-primario);
+$dgtit-theme-accent:  mat-palette($md-eje, 500);
+$dgtit-theme-warn:    mat-palette($mat-red);
+
+$dgtit-theme: mat-light-theme($dgtit-theme-primary, $dgtit-theme-accent, $dgtit-theme-warn);
+
+@include angular-material-theme($dgtit-theme);
